@@ -15,8 +15,8 @@ from arcengine import GameAction, GameState
 from arc3_pipeline.experience import Transition, transition_to_training_example
 from arc3_pipeline.frame_utils import changed_cells, connected_components, frame_to_grid, grid_hash, background_color
 
-DEFAULT_ENVIRONMENTS_DIR = "src/environment_files"
-DEFAULT_RECORDINGS_DIR = "src/recordings"
+DEFAULT_ENVIRONMENTS_DIR = "environment_files"
+DEFAULT_RECORDINGS_DIR = "recordings"
 
 
 def main() -> None:

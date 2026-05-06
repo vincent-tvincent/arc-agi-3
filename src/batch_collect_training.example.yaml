@@ -1,0 +1,32 @@
+# Number of interaction steps to collect per game/seed run.
+steps: 200
+
+# Number of seeds to run for each selected game.
+num_seeds: 100
+
+# First seed value. With seed_start: 0 and num_seeds: 5, seeds are 0-4.
+seed_start: 0
+
+# true uses only downloaded local games; false allows the ARC API.
+offline: false
+
+# Game selector. Use "all" for every available game, or a prefix like "ls20".
+game: all
+
+# Directory for raw transition logs produced by collect_experience.py.
+out_dir: training_runs
+
+# Directory for step-level training example JSONL files.
+training_out_dir: training_examples
+
+# Render mode while collecting. Use null for no rendering, or terminal/terminal-fast/human.
+render: null
+
+# false replaces existing files for the same game/seed; true appends to them.
+append: false
+
+# Local directory where ARC-AGI-3 environment files are stored.
+environments_dir: environment_files
+
+# Directory where the official toolkit writes recordings.
+recordings_dir: recordings

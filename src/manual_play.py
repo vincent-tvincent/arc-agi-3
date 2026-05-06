@@ -10,8 +10,8 @@ from arc_agi import OperationMode
 from arc_agi.models import EnvironmentInfo
 from arcengine import FrameDataRaw, GameAction, GameState
 
-DEFAULT_ENVIRONMENTS_DIR = "src/environment_files"
-DEFAULT_RECORDINGS_DIR = "src/recordings"
+DEFAULT_ENVIRONMENTS_DIR = "environment_files"
+DEFAULT_RECORDINGS_DIR = "recordings"
 RenderMode = Literal["terminal", "terminal-fast", "human"]
 
 

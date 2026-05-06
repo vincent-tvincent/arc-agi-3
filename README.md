@@ -54,8 +54,8 @@ Important files:
 - `src/arc3_pipeline/frame_utils.py` contains frame conversion, hashing, changed-cell detection, color counts, background detection, and connected-component extraction.
 - `src/arc3_pipeline/experience.py` defines the `Transition` record saved by the collector.
 - `src/arc3_pipeline/model_families.py` contains the bounded hypothesis generator.
-- `src/environment_files/` stores downloaded/local ARC-AGI-3 game files.
-- `src/recordings/` stores official toolkit recordings when `save_recording=True`.
+- `environment_files/` stores downloaded/local ARC-AGI-3 game files.
+- `recordings/` stores official toolkit recordings when `save_recording=True`.
 - `runs/` stores this pipeline's compact JSONL transition logs.
 - `training_examples/` stores step-level JSONL examples for model training.
 - `analysis/` stores machine-readable per-run analyzer JSON.
@@ -73,8 +73,8 @@ Then edit `.env`:
 
 ```bash
 ARC_API_KEY=put-your-api-key-here
-ENVIRONMENTS_DIR=src/environment_files
-RECORDINGS_DIR=src/recordings
+ENVIRONMENTS_DIR=environment_files
+RECORDINGS_DIR=recordings
 ```
 
 The official `arc_agi` package automatically loads `.env` from the project root.

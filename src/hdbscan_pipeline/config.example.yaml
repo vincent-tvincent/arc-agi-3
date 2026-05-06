@@ -1,0 +1,22 @@
+# Directory containing *.examples.jsonl files from the training collector.
+examples_dir: training_examples
+
+# Directory where cluster CSV/JSON outputs will be written.
+out_dir: clusters
+
+# Clustering method. Use hdbscan for automatic density clustering.
+# auto tries hdbscan first, then agglomerative if hdbscan is unavailable.
+# agglomerative uses n_clusters below.
+method: hdbscan
+
+# HDBSCAN only: minimum number of runs required to form a cluster.
+# Larger values produce fewer, larger clusters and more noise points.
+min_cluster_size: 3
+
+# HDBSCAN only: controls how conservative noise detection is.
+# Larger values mark more runs as noise/outliers.
+min_samples: 2
+
+# Agglomerative only: fixed number of clusters to produce.
+# Ignored when method is hdbscan.
+n_clusters: 5

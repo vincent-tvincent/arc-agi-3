@@ -34,9 +34,9 @@ source ../arc_agi/bin/activate
 python src/collect_experience.py --game ls20 --steps 80 --render terminal-fast
 ```
 
-This writes a JSONL run under `runs/` and also lets the official toolkit save its own recordings under `src/recordings/`.
+This writes a JSONL run under `runs/` and also lets the official toolkit save its own recordings under `recordings/`.
 
-If the game is already downloaded in `src/environment_files/`, you can avoid API calls:
+If the game is already downloaded in `environment_files/`, you can avoid API calls:
 
 ```bash
 python src/collect_experience.py --game ls20 --steps 80 --offline
