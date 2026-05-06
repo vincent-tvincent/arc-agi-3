@@ -1,0 +1,1819 @@
+{
+  "analysis_id": "tu93-0768757b_seed0",
+  "game_id": "tu93-0768757b",
+  "game_ids": [
+    "tu93-0768757b"
+  ],
+  "hypotheses": [
+    {
+      "confidence": "high",
+      "evidence": [
+        "small color/state changes seen after actions: ['ACTION1', 'ACTION2', 'ACTION3', 'ACTION4']"
+      ],
+      "family": "toggle",
+      "key_actions": [
+        "ACTION1",
+        "ACTION2",
+        "ACTION3",
+        "ACTION4"
+      ],
+      "parameters": {
+        "candidate_actions": [
+          "ACTION1",
+          "ACTION2",
+          "ACTION3",
+          "ACTION4"
+        ]
+      },
+      "rank": 1,
+      "score": 102.0
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 65 non-background components",
+        "progress/end-state actions observed: ['ACTION2', 'ACTION4']"
+      ],
+      "family": "collection",
+      "key_actions": [
+        "ACTION2",
+        "ACTION4"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              15,
+              15,
+              17,
+              17
+            ],
+            "center": [
+              16,
+              16
+            ],
+            "color": 9,
+            "size": 8
+          },
+          {
+            "bbox": [
+              18,
+              15,
+              20,
+              17
+            ],
+            "center": [
+              19,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              15,
+              23,
+              17
+            ],
+            "center": [
+              22,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              15,
+              29,
+              17
+            ],
+            "center": [
+              28,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              30,
+              15,
+              32,
+              17
+            ],
+            "center": [
+              31,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              15,
+              35,
+              17
+            ],
+            "center": [
+              34,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              36,
+              15,
+              38,
+              17
+            ],
+            "center": [
+              37,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              15,
+              41,
+              17
+            ],
+            "center": [
+              40,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              17,
+              16,
+              17,
+              16
+            ],
+            "center": [
+              17,
+              16
+            ],
+            "color": 4,
+            "size": 1
+          },
+          {
+            "bbox": [
+              21,
+              18,
+              23,
+              20
+            ],
+            "center": [
+              22,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              18,
+              29,
+              20
+            ],
+            "center": [
+              28,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              18,
+              41,
+              20
+            ],
+            "center": [
+              40,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              21,
+              23,
+              23
+            ],
+            "center": [
+              22,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              21,
+              29,
+              23
+            ],
+            "center": [
+              28,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              30,
+              21,
+              32,
+              23
+            ],
+            "center": [
+              31,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              21,
+              35,
+              23
+            ],
+            "center": [
+              34,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              36,
+              21,
+              38,
+              23
+            ],
+            "center": [
+              37,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              21,
+              41,
+              23
+            ],
+            "center": [
+              40,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              42,
+              21,
+              44,
+              23
+            ],
+            "center": [
+              43,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              21,
+              47,
+              23
+            ],
+            "center": [
+              46,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              24,
+              23,
+              26
+            ],
+            "center": [
+              22,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              24,
+              29,
+              26
+            ],
+            "center": [
+              28,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              24,
+              35,
+              26
+            ],
+            "center": [
+              34,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              24,
+              47,
+              26
+            ],
+            "center": [
+              46,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              27,
+              23,
+              29
+            ],
+            "center": [
+              22,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              24,
+              27,
+              26,
+              29
+            ],
+            "center": [
+              25,
+              28
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              27,
+              29,
+              29
+            ],
+            "center": [
+              28,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              27,
+              35,
+              29
+            ],
+            "center": [
+              34,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              27,
+              47,
+              29
+            ],
+            "center": [
+              46,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              30,
+              35,
+              32
+            ],
+            "center": [
+              34,
+              31
+            ],
+            "color": 2,
+            "size": 9
+          }
+        ],
+        "progress_actions": [
+          "ACTION2",
+          "ACTION4"
+        ]
+      },
+      "rank": 2,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 65 non-background components",
+        "progress/end-state actions observed: ['ACTION2', 'ACTION4']"
+      ],
+      "family": "push_block",
+      "key_actions": [
+        "ACTION2",
+        "ACTION4"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              15,
+              15,
+              17,
+              17
+            ],
+            "center": [
+              16,
+              16
+            ],
+            "color": 9,
+            "size": 8
+          },
+          {
+            "bbox": [
+              18,
+              15,
+              20,
+              17
+            ],
+            "center": [
+              19,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              15,
+              23,
+              17
+            ],
+            "center": [
+              22,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              15,
+              29,
+              17
+            ],
+            "center": [
+              28,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              30,
+              15,
+              32,
+              17
+            ],
+            "center": [
+              31,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              15,
+              35,
+              17
+            ],
+            "center": [
+              34,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              36,
+              15,
+              38,
+              17
+            ],
+            "center": [
+              37,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              15,
+              41,
+              17
+            ],
+            "center": [
+              40,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              17,
+              16,
+              17,
+              16
+            ],
+            "center": [
+              17,
+              16
+            ],
+            "color": 4,
+            "size": 1
+          },
+          {
+            "bbox": [
+              21,
+              18,
+              23,
+              20
+            ],
+            "center": [
+              22,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              18,
+              29,
+              20
+            ],
+            "center": [
+              28,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              18,
+              41,
+              20
+            ],
+            "center": [
+              40,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              21,
+              23,
+              23
+            ],
+            "center": [
+              22,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              21,
+              29,
+              23
+            ],
+            "center": [
+              28,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              30,
+              21,
+              32,
+              23
+            ],
+            "center": [
+              31,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              21,
+              35,
+              23
+            ],
+            "center": [
+              34,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              36,
+              21,
+              38,
+              23
+            ],
+            "center": [
+              37,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              21,
+              41,
+              23
+            ],
+            "center": [
+              40,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              42,
+              21,
+              44,
+              23
+            ],
+            "center": [
+              43,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              21,
+              47,
+              23
+            ],
+            "center": [
+              46,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              24,
+              23,
+              26
+            ],
+            "center": [
+              22,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              24,
+              29,
+              26
+            ],
+            "center": [
+              28,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              24,
+              35,
+              26
+            ],
+            "center": [
+              34,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              24,
+              47,
+              26
+            ],
+            "center": [
+              46,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              27,
+              23,
+              29
+            ],
+            "center": [
+              22,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              24,
+              27,
+              26,
+              29
+            ],
+            "center": [
+              25,
+              28
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              27,
+              29,
+              29
+            ],
+            "center": [
+              28,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              27,
+              35,
+              29
+            ],
+            "center": [
+              34,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              27,
+              47,
+              29
+            ],
+            "center": [
+              46,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              30,
+              35,
+              32
+            ],
+            "center": [
+              34,
+              31
+            ],
+            "color": 2,
+            "size": 9
+          }
+        ],
+        "progress_actions": [
+          "ACTION2",
+          "ACTION4"
+        ]
+      },
+      "rank": 3,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 65 non-background components",
+        "progress/end-state actions observed: ['ACTION2', 'ACTION4']"
+      ],
+      "family": "sequencing",
+      "key_actions": [
+        "ACTION2",
+        "ACTION4"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              15,
+              15,
+              17,
+              17
+            ],
+            "center": [
+              16,
+              16
+            ],
+            "color": 9,
+            "size": 8
+          },
+          {
+            "bbox": [
+              18,
+              15,
+              20,
+              17
+            ],
+            "center": [
+              19,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              15,
+              23,
+              17
+            ],
+            "center": [
+              22,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              15,
+              29,
+              17
+            ],
+            "center": [
+              28,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              30,
+              15,
+              32,
+              17
+            ],
+            "center": [
+              31,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              15,
+              35,
+              17
+            ],
+            "center": [
+              34,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              36,
+              15,
+              38,
+              17
+            ],
+            "center": [
+              37,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              15,
+              41,
+              17
+            ],
+            "center": [
+              40,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              17,
+              16,
+              17,
+              16
+            ],
+            "center": [
+              17,
+              16
+            ],
+            "color": 4,
+            "size": 1
+          },
+          {
+            "bbox": [
+              21,
+              18,
+              23,
+              20
+            ],
+            "center": [
+              22,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              18,
+              29,
+              20
+            ],
+            "center": [
+              28,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              18,
+              41,
+              20
+            ],
+            "center": [
+              40,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              21,
+              23,
+              23
+            ],
+            "center": [
+              22,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              21,
+              29,
+              23
+            ],
+            "center": [
+              28,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              30,
+              21,
+              32,
+              23
+            ],
+            "center": [
+              31,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              21,
+              35,
+              23
+            ],
+            "center": [
+              34,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              36,
+              21,
+              38,
+              23
+            ],
+            "center": [
+              37,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              21,
+              41,
+              23
+            ],
+            "center": [
+              40,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              42,
+              21,
+              44,
+              23
+            ],
+            "center": [
+              43,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              21,
+              47,
+              23
+            ],
+            "center": [
+              46,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              24,
+              23,
+              26
+            ],
+            "center": [
+              22,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              24,
+              29,
+              26
+            ],
+            "center": [
+              28,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              24,
+              35,
+              26
+            ],
+            "center": [
+              34,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              24,
+              47,
+              26
+            ],
+            "center": [
+              46,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              27,
+              23,
+              29
+            ],
+            "center": [
+              22,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              24,
+              27,
+              26,
+              29
+            ],
+            "center": [
+              25,
+              28
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              27,
+              29,
+              29
+            ],
+            "center": [
+              28,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              27,
+              35,
+              29
+            ],
+            "center": [
+              34,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              27,
+              47,
+              29
+            ],
+            "center": [
+              46,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              30,
+              35,
+              32
+            ],
+            "center": [
+              34,
+              31
+            ],
+            "color": 2,
+            "size": 9
+          }
+        ],
+        "progress_actions": [
+          "ACTION2",
+          "ACTION4"
+        ]
+      },
+      "rank": 4,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 65 non-background components",
+        "progress/end-state actions observed: ['ACTION2', 'ACTION4']"
+      ],
+      "family": "pattern_transform",
+      "key_actions": [
+        "ACTION2",
+        "ACTION4"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              15,
+              15,
+              17,
+              17
+            ],
+            "center": [
+              16,
+              16
+            ],
+            "color": 9,
+            "size": 8
+          },
+          {
+            "bbox": [
+              18,
+              15,
+              20,
+              17
+            ],
+            "center": [
+              19,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              15,
+              23,
+              17
+            ],
+            "center": [
+              22,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              15,
+              29,
+              17
+            ],
+            "center": [
+              28,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              30,
+              15,
+              32,
+              17
+            ],
+            "center": [
+              31,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              15,
+              35,
+              17
+            ],
+            "center": [
+              34,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              36,
+              15,
+              38,
+              17
+            ],
+            "center": [
+              37,
+              16
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              15,
+              41,
+              17
+            ],
+            "center": [
+              40,
+              16
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              17,
+              16,
+              17,
+              16
+            ],
+            "center": [
+              17,
+              16
+            ],
+            "color": 4,
+            "size": 1
+          },
+          {
+            "bbox": [
+              21,
+              18,
+              23,
+              20
+            ],
+            "center": [
+              22,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              18,
+              29,
+              20
+            ],
+            "center": [
+              28,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              18,
+              41,
+              20
+            ],
+            "center": [
+              40,
+              19
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              21,
+              23,
+              23
+            ],
+            "center": [
+              22,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              21,
+              29,
+              23
+            ],
+            "center": [
+              28,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              30,
+              21,
+              32,
+              23
+            ],
+            "center": [
+              31,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              21,
+              35,
+              23
+            ],
+            "center": [
+              34,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              36,
+              21,
+              38,
+              23
+            ],
+            "center": [
+              37,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              39,
+              21,
+              41,
+              23
+            ],
+            "center": [
+              40,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              42,
+              21,
+              44,
+              23
+            ],
+            "center": [
+              43,
+              22
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              21,
+              47,
+              23
+            ],
+            "center": [
+              46,
+              22
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              24,
+              23,
+              26
+            ],
+            "center": [
+              22,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              24,
+              29,
+              26
+            ],
+            "center": [
+              28,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              24,
+              35,
+              26
+            ],
+            "center": [
+              34,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              24,
+              47,
+              26
+            ],
+            "center": [
+              46,
+              25
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              21,
+              27,
+              23,
+              29
+            ],
+            "center": [
+              22,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              24,
+              27,
+              26,
+              29
+            ],
+            "center": [
+              25,
+              28
+            ],
+            "color": 2,
+            "size": 9
+          },
+          {
+            "bbox": [
+              27,
+              27,
+              29,
+              29
+            ],
+            "center": [
+              28,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              27,
+              35,
+              29
+            ],
+            "center": [
+              34,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              45,
+              27,
+              47,
+              29
+            ],
+            "center": [
+              46,
+              28
+            ],
+            "color": 0,
+            "size": 9
+          },
+          {
+            "bbox": [
+              33,
+              30,
+              35,
+              32
+            ],
+            "center": [
+              34,
+              31
+            ],
+            "color": 2,
+            "size": 9
+          }
+        ],
+        "progress_actions": [
+          "ACTION2",
+          "ACTION4"
+        ]
+      },
+      "rank": 5,
+      "score": 2.5
+    }
+  ],
+  "key_actions": [
+    "ACTION1",
+    "ACTION2",
+    "ACTION3",
+    "ACTION4"
+  ],
+  "run_file": "training_runs/tu93-0768757b_seed0.jsonl",
+  "second_actions": [
+    "ACTION2",
+    "ACTION4"
+  ],
+  "second_family": "collection",
+  "seed": 0,
+  "top_family": "toggle",
+  "transition_count": 200
+}

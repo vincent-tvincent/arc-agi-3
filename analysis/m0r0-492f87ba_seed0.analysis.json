@@ -1,0 +1,365 @@
+{
+  "analysis_id": "m0r0-492f87ba_seed0",
+  "game_id": "m0r0-492f87ba",
+  "game_ids": [
+    "m0r0-492f87ba"
+  ],
+  "hypotheses": [
+    {
+      "confidence": "high",
+      "evidence": [
+        "ACTION6 accepted x/y data 33 time(s)"
+      ],
+      "family": "click_select",
+      "key_actions": [
+        "ACTION6"
+      ],
+      "parameters": {
+        "coordinate_actions": [
+          "ACTION6"
+        ]
+      },
+      "rank": 1,
+      "score": 49.5
+    },
+    {
+      "confidence": "high",
+      "evidence": [
+        "small color/state changes seen after actions: ['ACTION5', 'ACTION6']"
+      ],
+      "family": "toggle",
+      "key_actions": [
+        "ACTION5",
+        "ACTION6"
+      ],
+      "parameters": {
+        "candidate_actions": [
+          "ACTION5",
+          "ACTION6"
+        ]
+      },
+      "rank": 2,
+      "score": 27.0
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 4 non-background components",
+        "progress/end-state actions observed: ['ACTION1']"
+      ],
+      "family": "collection",
+      "key_actions": [
+        "ACTION1"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              0,
+              1,
+              31,
+              62
+            ],
+            "center": [
+              14,
+              29
+            ],
+            "color": 11,
+            "size": 1294
+          },
+          {
+            "bbox": [
+              32,
+              1,
+              63,
+              62
+            ],
+            "center": [
+              49,
+              30
+            ],
+            "color": 12,
+            "size": 1299
+          },
+          {
+            "bbox": [
+              19,
+              49,
+              23,
+              53
+            ],
+            "center": [
+              21,
+              51
+            ],
+            "color": 10,
+            "size": 25
+          },
+          {
+            "bbox": [
+              39,
+              49,
+              43,
+              53
+            ],
+            "center": [
+              41,
+              51
+            ],
+            "color": 10,
+            "size": 25
+          }
+        ],
+        "progress_actions": [
+          "ACTION1"
+        ]
+      },
+      "rank": 3,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 4 non-background components",
+        "progress/end-state actions observed: ['ACTION1']"
+      ],
+      "family": "push_block",
+      "key_actions": [
+        "ACTION1"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              0,
+              1,
+              31,
+              62
+            ],
+            "center": [
+              14,
+              29
+            ],
+            "color": 11,
+            "size": 1294
+          },
+          {
+            "bbox": [
+              32,
+              1,
+              63,
+              62
+            ],
+            "center": [
+              49,
+              30
+            ],
+            "color": 12,
+            "size": 1299
+          },
+          {
+            "bbox": [
+              19,
+              49,
+              23,
+              53
+            ],
+            "center": [
+              21,
+              51
+            ],
+            "color": 10,
+            "size": 25
+          },
+          {
+            "bbox": [
+              39,
+              49,
+              43,
+              53
+            ],
+            "center": [
+              41,
+              51
+            ],
+            "color": 10,
+            "size": 25
+          }
+        ],
+        "progress_actions": [
+          "ACTION1"
+        ]
+      },
+      "rank": 4,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 4 non-background components",
+        "progress/end-state actions observed: ['ACTION1']"
+      ],
+      "family": "sequencing",
+      "key_actions": [
+        "ACTION1"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              0,
+              1,
+              31,
+              62
+            ],
+            "center": [
+              14,
+              29
+            ],
+            "color": 11,
+            "size": 1294
+          },
+          {
+            "bbox": [
+              32,
+              1,
+              63,
+              62
+            ],
+            "center": [
+              49,
+              30
+            ],
+            "color": 12,
+            "size": 1299
+          },
+          {
+            "bbox": [
+              19,
+              49,
+              23,
+              53
+            ],
+            "center": [
+              21,
+              51
+            ],
+            "color": 10,
+            "size": 25
+          },
+          {
+            "bbox": [
+              39,
+              49,
+              43,
+              53
+            ],
+            "center": [
+              41,
+              51
+            ],
+            "color": 10,
+            "size": 25
+          }
+        ],
+        "progress_actions": [
+          "ACTION1"
+        ]
+      },
+      "rank": 5,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 4 non-background components",
+        "progress/end-state actions observed: ['ACTION1']"
+      ],
+      "family": "pattern_transform",
+      "key_actions": [
+        "ACTION1"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              0,
+              1,
+              31,
+              62
+            ],
+            "center": [
+              14,
+              29
+            ],
+            "color": 11,
+            "size": 1294
+          },
+          {
+            "bbox": [
+              32,
+              1,
+              63,
+              62
+            ],
+            "center": [
+              49,
+              30
+            ],
+            "color": 12,
+            "size": 1299
+          },
+          {
+            "bbox": [
+              19,
+              49,
+              23,
+              53
+            ],
+            "center": [
+              21,
+              51
+            ],
+            "color": 10,
+            "size": 25
+          },
+          {
+            "bbox": [
+              39,
+              49,
+              43,
+              53
+            ],
+            "center": [
+              41,
+              51
+            ],
+            "color": 10,
+            "size": 25
+          }
+        ],
+        "progress_actions": [
+          "ACTION1"
+        ]
+      },
+      "rank": 6,
+      "score": 2.5
+    }
+  ],
+  "key_actions": [
+    "ACTION6"
+  ],
+  "run_file": "training_runs/m0r0-492f87ba_seed0.jsonl",
+  "second_actions": [
+    "ACTION5",
+    "ACTION6"
+  ],
+  "second_family": "toggle",
+  "seed": 0,
+  "top_family": "click_select",
+  "transition_count": 200
+}

@@ -124,6 +124,18 @@ The collector writes compact transition logs like:
 runs/ls20-9607627b_seed0.jsonl
 ```
 
+To generate files under `training_runs/` instead, pass `--out-dir training_runs`:
+
+```bash
+python src/collect_experience.py --game ls20 --steps 80 --offline --out-dir training_runs
+```
+
+To regenerate one run file per downloaded local game under `training_runs/`:
+
+```bash
+python src/collect_experience.py --game all --steps 80 --offline --out-dir training_runs
+```
+
 By default, the collector also writes step-level training examples like:
 
 ```text

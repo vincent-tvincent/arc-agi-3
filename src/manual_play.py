@@ -3,15 +3,16 @@
 from __future__ import annotations
 
 import argparse
-from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable, Literal, cast
 
 import arc_agi
 from arc_agi import OperationMode
-from arcengine import GameAction, GameState
+from arc_agi.models import EnvironmentInfo
+from arcengine import FrameDataRaw, GameAction, GameState
 
 DEFAULT_ENVIRONMENTS_DIR = "src/environment_files"
 DEFAULT_RECORDINGS_DIR = "src/recordings"
+RenderMode = Literal["terminal", "terminal-fast", "human"]
 
 
 def main() -> None:
@@ -24,21 +25,28 @@ def main() -> None:
     parser.add_argument("--recordings-dir", default=DEFAULT_RECORDINGS_DIR)
     parser.add_argument("--no-recording", action="store_true")
     args = parser.parse_args()
+    requested_env_id = cast(str | None, args.env_id)
+    seed = cast(int, args.seed)
+    render = cast(RenderMode, args.render)
+    online = cast(bool, args.online)
+    environments_dir = cast(str, args.environments_dir)
+    recordings_dir = cast(str, args.recordings_dir)
+    save_recording = not cast(bool, args.no_recording)
 
-    mode = OperationMode.NORMAL if args.online else OperationMode.OFFLINE
+    mode = OperationMode.NORMAL if online else OperationMode.OFFLINE
     arcade = arc_agi.Arcade(
         operation_mode=mode,
-        environments_dir=args.environments_dir,
-        recordings_dir=args.recordings_dir,
+        environments_dir=environments_dir,
+        recordings_dir=recordings_dir,
     )
 
-    env_infos = list(arcade.get_environments())
+    env_infos: list[EnvironmentInfo] = list(arcade.get_environments())
     if not env_infos:
-        raise SystemExit(f"No environments found in {args.environments_dir!r}.")
+        raise SystemExit(f"No environments found in {environments_dir!r}.")
 
-    env_id = args.env_id or prompt_for_environment(env_infos)
+    env_id = requested_env_id or prompt_for_environment(env_infos)
     game_id = resolve_environment_id(env_id, env_infos)
-    env = arcade.make(game_id, seed=args.seed, render_mode=args.render, save_recording=not args.no_recording)
+    env = arcade.make(game_id, seed=seed, render_mode=render, save_recording=save_recording)
     if env is None:
         raise SystemExit(f"Could not create environment {game_id!r}.")
 
@@ -46,7 +54,7 @@ def main() -> None:
     if obs is None:
         obs = env.step(GameAction.RESET)
 
-    print(f"Playing {game_id} with seed {args.seed}")
+    print(f"Playing {game_id} with seed {seed}")
     print_help(env.action_space)
 
     step = 0
@@ -81,7 +89,7 @@ def main() -> None:
     print("Scorecard:", arcade.get_scorecard())
 
 
-def prompt_for_environment(env_infos: Iterable[object]) -> str:
+def prompt_for_environment(env_infos: Iterable[EnvironmentInfo]) -> str:
     infos = list(env_infos)
     print("Available environments:")
     for info in infos:
@@ -89,7 +97,7 @@ def prompt_for_environment(env_infos: Iterable[object]) -> str:
     return input("env_id> ").strip()
 
 
-def resolve_environment_id(raw_env_id: str, env_infos: Iterable[object]) -> str:
+def resolve_environment_id(raw_env_id: str, env_infos: Iterable[EnvironmentInfo]) -> str:
     requested = raw_env_id.strip()
     if not requested:
         raise SystemExit("No environment id provided.")
@@ -113,7 +121,7 @@ def resolve_environment_id(raw_env_id: str, env_infos: Iterable[object]) -> str:
     raise SystemExit(f"Unknown environment id {requested!r}.")
 
 
-def parse_action(raw: str, action_space: list[GameAction]) -> tuple[GameAction, dict[str, int]]:
+def parse_action(raw: str, action_space: list[GameAction]) -> tuple[GameAction, dict[str, Any]]:
     parts = raw.replace(",", " ").split()
     token = parts[0].upper()
     if token.isdigit():
@@ -153,7 +161,7 @@ def print_help(action_space: list[GameAction]) -> None:
         print(f"  {action.name}{suffix}")
 
 
-def print_status(step: int, obs: object | None) -> None:
+def print_status(step: int, obs: FrameDataRaw | None) -> None:
     if obs is None:
         print(f"step={step} state=None")
         return

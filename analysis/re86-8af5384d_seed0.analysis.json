@@ -1,0 +1,1409 @@
+{
+  "analysis_id": "re86-8af5384d_seed0",
+  "game_id": "re86-8af5384d",
+  "game_ids": [
+    "re86-8af5384d"
+  ],
+  "hypotheses": [
+    {
+      "confidence": "high",
+      "evidence": [
+        "small color/state changes seen after actions: ['ACTION5']"
+      ],
+      "family": "toggle",
+      "key_actions": [
+        "ACTION5"
+      ],
+      "parameters": {
+        "candidate_actions": [
+          "ACTION5"
+        ]
+      },
+      "rank": 1,
+      "score": 40.0
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 23 non-background components",
+        "progress/end-state actions observed: ['ACTION5']"
+      ],
+      "family": "collection",
+      "key_actions": [
+        "ACTION5"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              14,
+              2,
+              16,
+              4
+            ],
+            "center": [
+              15,
+              3
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              15,
+              3,
+              15,
+              3
+            ],
+            "center": [
+              15,
+              3
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              5,
+              8,
+              7,
+              10
+            ],
+            "center": [
+              6,
+              9
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              23,
+              8,
+              25,
+              10
+            ],
+            "center": [
+              24,
+              9
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              6,
+              9,
+              6,
+              9
+            ],
+            "center": [
+              6,
+              9
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              24,
+              9,
+              24,
+              9
+            ],
+            "center": [
+              24,
+              9
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              47,
+              15,
+              49,
+              17
+            ],
+            "center": [
+              48,
+              16
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              14,
+              16,
+              16,
+              18
+            ],
+            "center": [
+              15,
+              17
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              10,
+              16,
+              32,
+              38
+            ],
+            "center": [
+              21,
+              27
+            ],
+            "color": 11,
+            "size": 45
+          },
+          {
+            "bbox": [
+              48,
+              16,
+              48,
+              16
+            ],
+            "center": [
+              48,
+              16
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              15,
+              17,
+              15,
+              17
+            ],
+            "center": [
+              15,
+              17
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              39,
+              23,
+              41,
+              25
+            ],
+            "center": [
+              40,
+              24
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              52,
+              23,
+              54,
+              25
+            ],
+            "center": [
+              53,
+              24
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              40,
+              24,
+              40,
+              24
+            ],
+            "center": [
+              40,
+              24
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              53,
+              24,
+              53,
+              24
+            ],
+            "center": [
+              53,
+              24
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              36,
+              32,
+              36,
+              44
+            ],
+            "center": [
+              36,
+              38
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              47,
+              34,
+              49,
+              36
+            ],
+            "center": [
+              48,
+              35
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              48,
+              35,
+              48,
+              35
+            ],
+            "center": [
+              48,
+              35
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              23,
+              45,
+              35,
+              45
+            ],
+            "center": [
+              29,
+              45
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              36,
+              45,
+              36,
+              45
+            ],
+            "center": [
+              36,
+              45
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              37,
+              45,
+              49,
+              45
+            ],
+            "center": [
+              43,
+              45
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              36,
+              46,
+              36,
+              58
+            ],
+            "center": [
+              36,
+              52
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              0,
+              63,
+              63,
+              63
+            ],
+            "center": [
+              32,
+              63
+            ],
+            "color": 15,
+            "size": 64
+          }
+        ],
+        "progress_actions": [
+          "ACTION5"
+        ]
+      },
+      "rank": 2,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 23 non-background components",
+        "progress/end-state actions observed: ['ACTION5']"
+      ],
+      "family": "push_block",
+      "key_actions": [
+        "ACTION5"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              14,
+              2,
+              16,
+              4
+            ],
+            "center": [
+              15,
+              3
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              15,
+              3,
+              15,
+              3
+            ],
+            "center": [
+              15,
+              3
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              5,
+              8,
+              7,
+              10
+            ],
+            "center": [
+              6,
+              9
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              23,
+              8,
+              25,
+              10
+            ],
+            "center": [
+              24,
+              9
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              6,
+              9,
+              6,
+              9
+            ],
+            "center": [
+              6,
+              9
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              24,
+              9,
+              24,
+              9
+            ],
+            "center": [
+              24,
+              9
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              47,
+              15,
+              49,
+              17
+            ],
+            "center": [
+              48,
+              16
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              14,
+              16,
+              16,
+              18
+            ],
+            "center": [
+              15,
+              17
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              10,
+              16,
+              32,
+              38
+            ],
+            "center": [
+              21,
+              27
+            ],
+            "color": 11,
+            "size": 45
+          },
+          {
+            "bbox": [
+              48,
+              16,
+              48,
+              16
+            ],
+            "center": [
+              48,
+              16
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              15,
+              17,
+              15,
+              17
+            ],
+            "center": [
+              15,
+              17
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              39,
+              23,
+              41,
+              25
+            ],
+            "center": [
+              40,
+              24
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              52,
+              23,
+              54,
+              25
+            ],
+            "center": [
+              53,
+              24
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              40,
+              24,
+              40,
+              24
+            ],
+            "center": [
+              40,
+              24
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              53,
+              24,
+              53,
+              24
+            ],
+            "center": [
+              53,
+              24
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              36,
+              32,
+              36,
+              44
+            ],
+            "center": [
+              36,
+              38
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              47,
+              34,
+              49,
+              36
+            ],
+            "center": [
+              48,
+              35
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              48,
+              35,
+              48,
+              35
+            ],
+            "center": [
+              48,
+              35
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              23,
+              45,
+              35,
+              45
+            ],
+            "center": [
+              29,
+              45
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              36,
+              45,
+              36,
+              45
+            ],
+            "center": [
+              36,
+              45
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              37,
+              45,
+              49,
+              45
+            ],
+            "center": [
+              43,
+              45
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              36,
+              46,
+              36,
+              58
+            ],
+            "center": [
+              36,
+              52
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              0,
+              63,
+              63,
+              63
+            ],
+            "center": [
+              32,
+              63
+            ],
+            "color": 15,
+            "size": 64
+          }
+        ],
+        "progress_actions": [
+          "ACTION5"
+        ]
+      },
+      "rank": 3,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 23 non-background components",
+        "progress/end-state actions observed: ['ACTION5']"
+      ],
+      "family": "sequencing",
+      "key_actions": [
+        "ACTION5"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              14,
+              2,
+              16,
+              4
+            ],
+            "center": [
+              15,
+              3
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              15,
+              3,
+              15,
+              3
+            ],
+            "center": [
+              15,
+              3
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              5,
+              8,
+              7,
+              10
+            ],
+            "center": [
+              6,
+              9
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              23,
+              8,
+              25,
+              10
+            ],
+            "center": [
+              24,
+              9
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              6,
+              9,
+              6,
+              9
+            ],
+            "center": [
+              6,
+              9
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              24,
+              9,
+              24,
+              9
+            ],
+            "center": [
+              24,
+              9
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              47,
+              15,
+              49,
+              17
+            ],
+            "center": [
+              48,
+              16
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              14,
+              16,
+              16,
+              18
+            ],
+            "center": [
+              15,
+              17
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              10,
+              16,
+              32,
+              38
+            ],
+            "center": [
+              21,
+              27
+            ],
+            "color": 11,
+            "size": 45
+          },
+          {
+            "bbox": [
+              48,
+              16,
+              48,
+              16
+            ],
+            "center": [
+              48,
+              16
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              15,
+              17,
+              15,
+              17
+            ],
+            "center": [
+              15,
+              17
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              39,
+              23,
+              41,
+              25
+            ],
+            "center": [
+              40,
+              24
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              52,
+              23,
+              54,
+              25
+            ],
+            "center": [
+              53,
+              24
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              40,
+              24,
+              40,
+              24
+            ],
+            "center": [
+              40,
+              24
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              53,
+              24,
+              53,
+              24
+            ],
+            "center": [
+              53,
+              24
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              36,
+              32,
+              36,
+              44
+            ],
+            "center": [
+              36,
+              38
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              47,
+              34,
+              49,
+              36
+            ],
+            "center": [
+              48,
+              35
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              48,
+              35,
+              48,
+              35
+            ],
+            "center": [
+              48,
+              35
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              23,
+              45,
+              35,
+              45
+            ],
+            "center": [
+              29,
+              45
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              36,
+              45,
+              36,
+              45
+            ],
+            "center": [
+              36,
+              45
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              37,
+              45,
+              49,
+              45
+            ],
+            "center": [
+              43,
+              45
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              36,
+              46,
+              36,
+              58
+            ],
+            "center": [
+              36,
+              52
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              0,
+              63,
+              63,
+              63
+            ],
+            "center": [
+              32,
+              63
+            ],
+            "color": 15,
+            "size": 64
+          }
+        ],
+        "progress_actions": [
+          "ACTION5"
+        ]
+      },
+      "rank": 4,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 23 non-background components",
+        "progress/end-state actions observed: ['ACTION5']"
+      ],
+      "family": "pattern_transform",
+      "key_actions": [
+        "ACTION5"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              14,
+              2,
+              16,
+              4
+            ],
+            "center": [
+              15,
+              3
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              15,
+              3,
+              15,
+              3
+            ],
+            "center": [
+              15,
+              3
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              5,
+              8,
+              7,
+              10
+            ],
+            "center": [
+              6,
+              9
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              23,
+              8,
+              25,
+              10
+            ],
+            "center": [
+              24,
+              9
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              6,
+              9,
+              6,
+              9
+            ],
+            "center": [
+              6,
+              9
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              24,
+              9,
+              24,
+              9
+            ],
+            "center": [
+              24,
+              9
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              47,
+              15,
+              49,
+              17
+            ],
+            "center": [
+              48,
+              16
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              14,
+              16,
+              16,
+              18
+            ],
+            "center": [
+              15,
+              17
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              10,
+              16,
+              32,
+              38
+            ],
+            "center": [
+              21,
+              27
+            ],
+            "color": 11,
+            "size": 45
+          },
+          {
+            "bbox": [
+              48,
+              16,
+              48,
+              16
+            ],
+            "center": [
+              48,
+              16
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              15,
+              17,
+              15,
+              17
+            ],
+            "center": [
+              15,
+              17
+            ],
+            "color": 11,
+            "size": 1
+          },
+          {
+            "bbox": [
+              39,
+              23,
+              41,
+              25
+            ],
+            "center": [
+              40,
+              24
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              52,
+              23,
+              54,
+              25
+            ],
+            "center": [
+              53,
+              24
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              40,
+              24,
+              40,
+              24
+            ],
+            "center": [
+              40,
+              24
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              53,
+              24,
+              53,
+              24
+            ],
+            "center": [
+              53,
+              24
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              36,
+              32,
+              36,
+              44
+            ],
+            "center": [
+              36,
+              38
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              47,
+              34,
+              49,
+              36
+            ],
+            "center": [
+              48,
+              35
+            ],
+            "color": 4,
+            "size": 8
+          },
+          {
+            "bbox": [
+              48,
+              35,
+              48,
+              35
+            ],
+            "center": [
+              48,
+              35
+            ],
+            "color": 9,
+            "size": 1
+          },
+          {
+            "bbox": [
+              23,
+              45,
+              35,
+              45
+            ],
+            "center": [
+              29,
+              45
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              36,
+              45,
+              36,
+              45
+            ],
+            "center": [
+              36,
+              45
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              37,
+              45,
+              49,
+              45
+            ],
+            "center": [
+              43,
+              45
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              36,
+              46,
+              36,
+              58
+            ],
+            "center": [
+              36,
+              52
+            ],
+            "color": 9,
+            "size": 13
+          },
+          {
+            "bbox": [
+              0,
+              63,
+              63,
+              63
+            ],
+            "center": [
+              32,
+              63
+            ],
+            "color": 15,
+            "size": 64
+          }
+        ],
+        "progress_actions": [
+          "ACTION5"
+        ]
+      },
+      "rank": 5,
+      "score": 2.5
+    }
+  ],
+  "key_actions": [
+    "ACTION5"
+  ],
+  "run_file": "training_runs/re86-8af5384d_seed0.jsonl",
+  "second_actions": [
+    "ACTION5"
+  ],
+  "second_family": "collection",
+  "seed": 0,
+  "top_family": "toggle",
+  "transition_count": 200
+}

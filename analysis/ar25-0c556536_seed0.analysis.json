@@ -1,0 +1,754 @@
+{
+  "analysis_id": "ar25-0c556536_seed0",
+  "game_id": "ar25-0c556536",
+  "game_ids": [
+    "ar25-0c556536"
+  ],
+  "hypotheses": [
+    {
+      "confidence": "high",
+      "evidence": [
+        "ACTION6 accepted x/y data 28 time(s)"
+      ],
+      "family": "click_select",
+      "key_actions": [
+        "ACTION6"
+      ],
+      "parameters": {
+        "coordinate_actions": [
+          "ACTION6"
+        ]
+      },
+      "rank": 1,
+      "score": 42.0
+    },
+    {
+      "confidence": "high",
+      "evidence": [
+        "small color/state changes seen after actions: ['ACTION5']"
+      ],
+      "family": "toggle",
+      "key_actions": [
+        "ACTION5"
+      ],
+      "parameters": {
+        "candidate_actions": [
+          "ACTION5"
+        ]
+      },
+      "rank": 2,
+      "score": 28.0
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 11 non-background components",
+        "progress/end-state actions observed: ['ACTION2']"
+      ],
+      "family": "collection",
+      "key_actions": [
+        "ACTION2"
+      ],
+      "parameters": {
+        "background_color": 9,
+        "component_summary": [
+          {
+            "bbox": [
+              30,
+              0,
+              32,
+              62
+            ],
+            "center": [
+              31,
+              31
+            ],
+            "color": 10,
+            "size": 189
+          },
+          {
+            "bbox": [
+              63,
+              0,
+              63,
+              63
+            ],
+            "center": [
+              63,
+              32
+            ],
+            "color": 11,
+            "size": 64
+          },
+          {
+            "bbox": [
+              18,
+              15,
+              26,
+              23
+            ],
+            "center": [
+              23,
+              18
+            ],
+            "color": 5,
+            "size": 40
+          },
+          {
+            "bbox": [
+              36,
+              15,
+              44,
+              23
+            ],
+            "center": [
+              39,
+              18
+            ],
+            "color": 4,
+            "size": 45
+          },
+          {
+            "bbox": [
+              19,
+              16,
+              19,
+              16
+            ],
+            "center": [
+              19,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              22,
+              16,
+              22,
+              16
+            ],
+            "center": [
+              22,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              16,
+              25,
+              16
+            ],
+            "center": [
+              25,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              19,
+              25,
+              19
+            ],
+            "center": [
+              25,
+              19
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              22,
+              25,
+              22
+            ],
+            "center": [
+              25,
+              22
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              51,
+              45,
+              59,
+              53
+            ],
+            "center": [
+              54,
+              48
+            ],
+            "color": 11,
+            "size": 45
+          },
+          {
+            "bbox": [
+              0,
+              63,
+              62,
+              63
+            ],
+            "center": [
+              31,
+              63
+            ],
+            "color": 5,
+            "size": 63
+          }
+        ],
+        "progress_actions": [
+          "ACTION2"
+        ]
+      },
+      "rank": 3,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 11 non-background components",
+        "progress/end-state actions observed: ['ACTION2']"
+      ],
+      "family": "push_block",
+      "key_actions": [
+        "ACTION2"
+      ],
+      "parameters": {
+        "background_color": 9,
+        "component_summary": [
+          {
+            "bbox": [
+              30,
+              0,
+              32,
+              62
+            ],
+            "center": [
+              31,
+              31
+            ],
+            "color": 10,
+            "size": 189
+          },
+          {
+            "bbox": [
+              63,
+              0,
+              63,
+              63
+            ],
+            "center": [
+              63,
+              32
+            ],
+            "color": 11,
+            "size": 64
+          },
+          {
+            "bbox": [
+              18,
+              15,
+              26,
+              23
+            ],
+            "center": [
+              23,
+              18
+            ],
+            "color": 5,
+            "size": 40
+          },
+          {
+            "bbox": [
+              36,
+              15,
+              44,
+              23
+            ],
+            "center": [
+              39,
+              18
+            ],
+            "color": 4,
+            "size": 45
+          },
+          {
+            "bbox": [
+              19,
+              16,
+              19,
+              16
+            ],
+            "center": [
+              19,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              22,
+              16,
+              22,
+              16
+            ],
+            "center": [
+              22,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              16,
+              25,
+              16
+            ],
+            "center": [
+              25,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              19,
+              25,
+              19
+            ],
+            "center": [
+              25,
+              19
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              22,
+              25,
+              22
+            ],
+            "center": [
+              25,
+              22
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              51,
+              45,
+              59,
+              53
+            ],
+            "center": [
+              54,
+              48
+            ],
+            "color": 11,
+            "size": 45
+          },
+          {
+            "bbox": [
+              0,
+              63,
+              62,
+              63
+            ],
+            "center": [
+              31,
+              63
+            ],
+            "color": 5,
+            "size": 63
+          }
+        ],
+        "progress_actions": [
+          "ACTION2"
+        ]
+      },
+      "rank": 4,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 11 non-background components",
+        "progress/end-state actions observed: ['ACTION2']"
+      ],
+      "family": "sequencing",
+      "key_actions": [
+        "ACTION2"
+      ],
+      "parameters": {
+        "background_color": 9,
+        "component_summary": [
+          {
+            "bbox": [
+              30,
+              0,
+              32,
+              62
+            ],
+            "center": [
+              31,
+              31
+            ],
+            "color": 10,
+            "size": 189
+          },
+          {
+            "bbox": [
+              63,
+              0,
+              63,
+              63
+            ],
+            "center": [
+              63,
+              32
+            ],
+            "color": 11,
+            "size": 64
+          },
+          {
+            "bbox": [
+              18,
+              15,
+              26,
+              23
+            ],
+            "center": [
+              23,
+              18
+            ],
+            "color": 5,
+            "size": 40
+          },
+          {
+            "bbox": [
+              36,
+              15,
+              44,
+              23
+            ],
+            "center": [
+              39,
+              18
+            ],
+            "color": 4,
+            "size": 45
+          },
+          {
+            "bbox": [
+              19,
+              16,
+              19,
+              16
+            ],
+            "center": [
+              19,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              22,
+              16,
+              22,
+              16
+            ],
+            "center": [
+              22,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              16,
+              25,
+              16
+            ],
+            "center": [
+              25,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              19,
+              25,
+              19
+            ],
+            "center": [
+              25,
+              19
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              22,
+              25,
+              22
+            ],
+            "center": [
+              25,
+              22
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              51,
+              45,
+              59,
+              53
+            ],
+            "center": [
+              54,
+              48
+            ],
+            "color": 11,
+            "size": 45
+          },
+          {
+            "bbox": [
+              0,
+              63,
+              62,
+              63
+            ],
+            "center": [
+              31,
+              63
+            ],
+            "color": 5,
+            "size": 63
+          }
+        ],
+        "progress_actions": [
+          "ACTION2"
+        ]
+      },
+      "rank": 5,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 11 non-background components",
+        "progress/end-state actions observed: ['ACTION2']"
+      ],
+      "family": "pattern_transform",
+      "key_actions": [
+        "ACTION2"
+      ],
+      "parameters": {
+        "background_color": 9,
+        "component_summary": [
+          {
+            "bbox": [
+              30,
+              0,
+              32,
+              62
+            ],
+            "center": [
+              31,
+              31
+            ],
+            "color": 10,
+            "size": 189
+          },
+          {
+            "bbox": [
+              63,
+              0,
+              63,
+              63
+            ],
+            "center": [
+              63,
+              32
+            ],
+            "color": 11,
+            "size": 64
+          },
+          {
+            "bbox": [
+              18,
+              15,
+              26,
+              23
+            ],
+            "center": [
+              23,
+              18
+            ],
+            "color": 5,
+            "size": 40
+          },
+          {
+            "bbox": [
+              36,
+              15,
+              44,
+              23
+            ],
+            "center": [
+              39,
+              18
+            ],
+            "color": 4,
+            "size": 45
+          },
+          {
+            "bbox": [
+              19,
+              16,
+              19,
+              16
+            ],
+            "center": [
+              19,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              22,
+              16,
+              22,
+              16
+            ],
+            "center": [
+              22,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              16,
+              25,
+              16
+            ],
+            "center": [
+              25,
+              16
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              19,
+              25,
+              19
+            ],
+            "center": [
+              25,
+              19
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              25,
+              22,
+              25,
+              22
+            ],
+            "center": [
+              25,
+              22
+            ],
+            "color": 0,
+            "size": 1
+          },
+          {
+            "bbox": [
+              51,
+              45,
+              59,
+              53
+            ],
+            "center": [
+              54,
+              48
+            ],
+            "color": 11,
+            "size": 45
+          },
+          {
+            "bbox": [
+              0,
+              63,
+              62,
+              63
+            ],
+            "center": [
+              31,
+              63
+            ],
+            "color": 5,
+            "size": 63
+          }
+        ],
+        "progress_actions": [
+          "ACTION2"
+        ]
+      },
+      "rank": 6,
+      "score": 2.5
+    }
+  ],
+  "key_actions": [
+    "ACTION6"
+  ],
+  "run_file": "training_runs/ar25-0c556536_seed0.jsonl",
+  "second_actions": [
+    "ACTION5"
+  ],
+  "second_family": "toggle",
+  "seed": 0,
+  "top_family": "click_select",
+  "transition_count": 200
+}

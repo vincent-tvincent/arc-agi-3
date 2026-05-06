@@ -1,0 +1,1818 @@
+{
+  "analysis_id": "tn36-ef4dde99_seed0",
+  "game_id": "tn36-ef4dde99",
+  "game_ids": [
+    "tn36-ef4dde99"
+  ],
+  "hypotheses": [
+    {
+      "confidence": "high",
+      "evidence": [
+        "ACTION6 accepted x/y data 200 time(s)"
+      ],
+      "family": "click_select",
+      "key_actions": [
+        "ACTION6"
+      ],
+      "parameters": {
+        "coordinate_actions": [
+          "ACTION6"
+        ]
+      },
+      "rank": 1,
+      "score": 300.0
+    },
+    {
+      "confidence": "high",
+      "evidence": [
+        "small color/state changes seen after actions: ['ACTION6']"
+      ],
+      "family": "toggle",
+      "key_actions": [
+        "ACTION6"
+      ],
+      "parameters": {
+        "candidate_actions": [
+          "ACTION6"
+        ]
+      },
+      "rank": 2,
+      "score": 200.0
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 47 non-background components",
+        "progress/end-state actions observed: ['ACTION6']"
+      ],
+      "family": "collection",
+      "key_actions": [
+        "ACTION6"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              1,
+              1,
+              61,
+              1
+            ],
+            "center": [
+              31,
+              1
+            ],
+            "color": 9,
+            "size": 61
+          },
+          {
+            "bbox": [
+              13,
+              8,
+              50,
+              50
+            ],
+            "center": [
+              32,
+              37
+            ],
+            "color": 0,
+            "size": 353
+          },
+          {
+            "bbox": [
+              18,
+              9,
+              21,
+              12
+            ],
+            "center": [
+              20,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              9,
+              29,
+              12
+            ],
+            "center": [
+              28,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              9,
+              37,
+              12
+            ],
+            "center": [
+              36,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              9,
+              45,
+              12
+            ],
+            "center": [
+              44,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              13,
+              17,
+              16
+            ],
+            "center": [
+              16,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              13,
+              25,
+              16
+            ],
+            "center": [
+              24,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              13,
+              33,
+              16
+            ],
+            "center": [
+              32,
+              14
+            ],
+            "color": 11,
+            "size": 14
+          },
+          {
+            "bbox": [
+              38,
+              13,
+              41,
+              16
+            ],
+            "center": [
+              40,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              13,
+              49,
+              16
+            ],
+            "center": [
+              48,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              31,
+              16,
+              32,
+              16
+            ],
+            "center": [
+              32,
+              16
+            ],
+            "color": 4,
+            "size": 2
+          },
+          {
+            "bbox": [
+              18,
+              17,
+              21,
+              20
+            ],
+            "center": [
+              20,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              17,
+              29,
+              20
+            ],
+            "center": [
+              28,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              17,
+              37,
+              20
+            ],
+            "center": [
+              36,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              17,
+              45,
+              20
+            ],
+            "center": [
+              44,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              21,
+              17,
+              24
+            ],
+            "center": [
+              16,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              21,
+              25,
+              24
+            ],
+            "center": [
+              24,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              21,
+              33,
+              24
+            ],
+            "center": [
+              32,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              38,
+              21,
+              41,
+              24
+            ],
+            "center": [
+              40,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              21,
+              49,
+              24
+            ],
+            "center": [
+              48,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              18,
+              25,
+              21,
+              28
+            ],
+            "center": [
+              20,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              25,
+              29,
+              28
+            ],
+            "center": [
+              28,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              25,
+              37,
+              28
+            ],
+            "center": [
+              36,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              25,
+              45,
+              28
+            ],
+            "center": [
+              44,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              29,
+              17,
+              32
+            ],
+            "center": [
+              16,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              29,
+              25,
+              32
+            ],
+            "center": [
+              24,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              29,
+              33,
+              32
+            ],
+            "center": [
+              32,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              38,
+              29,
+              41,
+              32
+            ],
+            "center": [
+              40,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              29,
+              49,
+              32
+            ],
+            "center": [
+              48,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          }
+        ],
+        "progress_actions": [
+          "ACTION6"
+        ]
+      },
+      "rank": 3,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 47 non-background components",
+        "progress/end-state actions observed: ['ACTION6']"
+      ],
+      "family": "push_block",
+      "key_actions": [
+        "ACTION6"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              1,
+              1,
+              61,
+              1
+            ],
+            "center": [
+              31,
+              1
+            ],
+            "color": 9,
+            "size": 61
+          },
+          {
+            "bbox": [
+              13,
+              8,
+              50,
+              50
+            ],
+            "center": [
+              32,
+              37
+            ],
+            "color": 0,
+            "size": 353
+          },
+          {
+            "bbox": [
+              18,
+              9,
+              21,
+              12
+            ],
+            "center": [
+              20,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              9,
+              29,
+              12
+            ],
+            "center": [
+              28,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              9,
+              37,
+              12
+            ],
+            "center": [
+              36,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              9,
+              45,
+              12
+            ],
+            "center": [
+              44,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              13,
+              17,
+              16
+            ],
+            "center": [
+              16,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              13,
+              25,
+              16
+            ],
+            "center": [
+              24,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              13,
+              33,
+              16
+            ],
+            "center": [
+              32,
+              14
+            ],
+            "color": 11,
+            "size": 14
+          },
+          {
+            "bbox": [
+              38,
+              13,
+              41,
+              16
+            ],
+            "center": [
+              40,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              13,
+              49,
+              16
+            ],
+            "center": [
+              48,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              31,
+              16,
+              32,
+              16
+            ],
+            "center": [
+              32,
+              16
+            ],
+            "color": 4,
+            "size": 2
+          },
+          {
+            "bbox": [
+              18,
+              17,
+              21,
+              20
+            ],
+            "center": [
+              20,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              17,
+              29,
+              20
+            ],
+            "center": [
+              28,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              17,
+              37,
+              20
+            ],
+            "center": [
+              36,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              17,
+              45,
+              20
+            ],
+            "center": [
+              44,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              21,
+              17,
+              24
+            ],
+            "center": [
+              16,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              21,
+              25,
+              24
+            ],
+            "center": [
+              24,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              21,
+              33,
+              24
+            ],
+            "center": [
+              32,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              38,
+              21,
+              41,
+              24
+            ],
+            "center": [
+              40,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              21,
+              49,
+              24
+            ],
+            "center": [
+              48,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              18,
+              25,
+              21,
+              28
+            ],
+            "center": [
+              20,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              25,
+              29,
+              28
+            ],
+            "center": [
+              28,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              25,
+              37,
+              28
+            ],
+            "center": [
+              36,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              25,
+              45,
+              28
+            ],
+            "center": [
+              44,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              29,
+              17,
+              32
+            ],
+            "center": [
+              16,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              29,
+              25,
+              32
+            ],
+            "center": [
+              24,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              29,
+              33,
+              32
+            ],
+            "center": [
+              32,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              38,
+              29,
+              41,
+              32
+            ],
+            "center": [
+              40,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              29,
+              49,
+              32
+            ],
+            "center": [
+              48,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          }
+        ],
+        "progress_actions": [
+          "ACTION6"
+        ]
+      },
+      "rank": 4,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 47 non-background components",
+        "progress/end-state actions observed: ['ACTION6']"
+      ],
+      "family": "sequencing",
+      "key_actions": [
+        "ACTION6"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              1,
+              1,
+              61,
+              1
+            ],
+            "center": [
+              31,
+              1
+            ],
+            "color": 9,
+            "size": 61
+          },
+          {
+            "bbox": [
+              13,
+              8,
+              50,
+              50
+            ],
+            "center": [
+              32,
+              37
+            ],
+            "color": 0,
+            "size": 353
+          },
+          {
+            "bbox": [
+              18,
+              9,
+              21,
+              12
+            ],
+            "center": [
+              20,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              9,
+              29,
+              12
+            ],
+            "center": [
+              28,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              9,
+              37,
+              12
+            ],
+            "center": [
+              36,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              9,
+              45,
+              12
+            ],
+            "center": [
+              44,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              13,
+              17,
+              16
+            ],
+            "center": [
+              16,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              13,
+              25,
+              16
+            ],
+            "center": [
+              24,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              13,
+              33,
+              16
+            ],
+            "center": [
+              32,
+              14
+            ],
+            "color": 11,
+            "size": 14
+          },
+          {
+            "bbox": [
+              38,
+              13,
+              41,
+              16
+            ],
+            "center": [
+              40,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              13,
+              49,
+              16
+            ],
+            "center": [
+              48,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              31,
+              16,
+              32,
+              16
+            ],
+            "center": [
+              32,
+              16
+            ],
+            "color": 4,
+            "size": 2
+          },
+          {
+            "bbox": [
+              18,
+              17,
+              21,
+              20
+            ],
+            "center": [
+              20,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              17,
+              29,
+              20
+            ],
+            "center": [
+              28,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              17,
+              37,
+              20
+            ],
+            "center": [
+              36,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              17,
+              45,
+              20
+            ],
+            "center": [
+              44,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              21,
+              17,
+              24
+            ],
+            "center": [
+              16,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              21,
+              25,
+              24
+            ],
+            "center": [
+              24,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              21,
+              33,
+              24
+            ],
+            "center": [
+              32,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              38,
+              21,
+              41,
+              24
+            ],
+            "center": [
+              40,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              21,
+              49,
+              24
+            ],
+            "center": [
+              48,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              18,
+              25,
+              21,
+              28
+            ],
+            "center": [
+              20,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              25,
+              29,
+              28
+            ],
+            "center": [
+              28,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              25,
+              37,
+              28
+            ],
+            "center": [
+              36,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              25,
+              45,
+              28
+            ],
+            "center": [
+              44,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              29,
+              17,
+              32
+            ],
+            "center": [
+              16,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              29,
+              25,
+              32
+            ],
+            "center": [
+              24,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              29,
+              33,
+              32
+            ],
+            "center": [
+              32,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              38,
+              29,
+              41,
+              32
+            ],
+            "center": [
+              40,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              29,
+              49,
+              32
+            ],
+            "center": [
+              48,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          }
+        ],
+        "progress_actions": [
+          "ACTION6"
+        ]
+      },
+      "rank": 5,
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "initial board has 47 non-background components",
+        "progress/end-state actions observed: ['ACTION6']"
+      ],
+      "family": "pattern_transform",
+      "key_actions": [
+        "ACTION6"
+      ],
+      "parameters": {
+        "background_color": 5,
+        "component_summary": [
+          {
+            "bbox": [
+              1,
+              1,
+              61,
+              1
+            ],
+            "center": [
+              31,
+              1
+            ],
+            "color": 9,
+            "size": 61
+          },
+          {
+            "bbox": [
+              13,
+              8,
+              50,
+              50
+            ],
+            "center": [
+              32,
+              37
+            ],
+            "color": 0,
+            "size": 353
+          },
+          {
+            "bbox": [
+              18,
+              9,
+              21,
+              12
+            ],
+            "center": [
+              20,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              9,
+              29,
+              12
+            ],
+            "center": [
+              28,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              9,
+              37,
+              12
+            ],
+            "center": [
+              36,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              9,
+              45,
+              12
+            ],
+            "center": [
+              44,
+              10
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              13,
+              17,
+              16
+            ],
+            "center": [
+              16,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              13,
+              25,
+              16
+            ],
+            "center": [
+              24,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              13,
+              33,
+              16
+            ],
+            "center": [
+              32,
+              14
+            ],
+            "color": 11,
+            "size": 14
+          },
+          {
+            "bbox": [
+              38,
+              13,
+              41,
+              16
+            ],
+            "center": [
+              40,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              13,
+              49,
+              16
+            ],
+            "center": [
+              48,
+              14
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              31,
+              16,
+              32,
+              16
+            ],
+            "center": [
+              32,
+              16
+            ],
+            "color": 4,
+            "size": 2
+          },
+          {
+            "bbox": [
+              18,
+              17,
+              21,
+              20
+            ],
+            "center": [
+              20,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              17,
+              29,
+              20
+            ],
+            "center": [
+              28,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              17,
+              37,
+              20
+            ],
+            "center": [
+              36,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              17,
+              45,
+              20
+            ],
+            "center": [
+              44,
+              18
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              21,
+              17,
+              24
+            ],
+            "center": [
+              16,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              21,
+              25,
+              24
+            ],
+            "center": [
+              24,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              21,
+              33,
+              24
+            ],
+            "center": [
+              32,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              38,
+              21,
+              41,
+              24
+            ],
+            "center": [
+              40,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              21,
+              49,
+              24
+            ],
+            "center": [
+              48,
+              22
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              18,
+              25,
+              21,
+              28
+            ],
+            "center": [
+              20,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              26,
+              25,
+              29,
+              28
+            ],
+            "center": [
+              28,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              34,
+              25,
+              37,
+              28
+            ],
+            "center": [
+              36,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              42,
+              25,
+              45,
+              28
+            ],
+            "center": [
+              44,
+              26
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              14,
+              29,
+              17,
+              32
+            ],
+            "center": [
+              16,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              22,
+              29,
+              25,
+              32
+            ],
+            "center": [
+              24,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              30,
+              29,
+              33,
+              32
+            ],
+            "center": [
+              32,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              38,
+              29,
+              41,
+              32
+            ],
+            "center": [
+              40,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          },
+          {
+            "bbox": [
+              46,
+              29,
+              49,
+              32
+            ],
+            "center": [
+              48,
+              30
+            ],
+            "color": 4,
+            "size": 16
+          }
+        ],
+        "progress_actions": [
+          "ACTION6"
+        ]
+      },
+      "rank": 6,
+      "score": 2.5
+    }
+  ],
+  "key_actions": [
+    "ACTION6"
+  ],
+  "run_file": "training_runs/tn36-ef4dde99_seed0.jsonl",
+  "second_actions": [
+    "ACTION6"
+  ],
+  "second_family": "toggle",
+  "seed": 0,
+  "top_family": "click_select",
+  "transition_count": 200
+}

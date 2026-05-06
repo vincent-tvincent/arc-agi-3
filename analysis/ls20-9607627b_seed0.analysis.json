@@ -8,10 +8,13 @@
     {
       "confidence": "low",
       "evidence": [
-        "initial board has 18 non-background components"
+        "initial board has 18 non-background components",
+        "progress/end-state actions observed: ['ACTION1']"
       ],
       "family": "collection",
-      "key_actions": [],
+      "key_actions": [
+        "ACTION1"
+      ],
       "parameters": {
         "background_color": 4,
         "component_summary": [
@@ -268,18 +271,23 @@
             "size": 4
           }
         ],
-        "progress_actions": []
+        "progress_actions": [
+          "ACTION1"
+        ]
       },
       "rank": 1,
-      "score": 0.5
+      "score": 2.5
     },
     {
       "confidence": "low",
       "evidence": [
-        "initial board has 18 non-background components"
+        "initial board has 18 non-background components",
+        "progress/end-state actions observed: ['ACTION1']"
       ],
       "family": "push_block",
-      "key_actions": [],
+      "key_actions": [
+        "ACTION1"
+      ],
       "parameters": {
         "background_color": 4,
         "component_summary": [
@@ -536,18 +544,23 @@
             "size": 4
           }
         ],
-        "progress_actions": []
+        "progress_actions": [
+          "ACTION1"
+        ]
       },
       "rank": 2,
-      "score": 0.5
+      "score": 2.5
     },
     {
       "confidence": "low",
       "evidence": [
-        "initial board has 18 non-background components"
+        "initial board has 18 non-background components",
+        "progress/end-state actions observed: ['ACTION1']"
       ],
       "family": "sequencing",
-      "key_actions": [],
+      "key_actions": [
+        "ACTION1"
+      ],
       "parameters": {
         "background_color": 4,
         "component_summary": [
@@ -804,18 +817,23 @@
             "size": 4
           }
         ],
-        "progress_actions": []
+        "progress_actions": [
+          "ACTION1"
+        ]
       },
       "rank": 3,
-      "score": 0.5
+      "score": 2.5
     },
     {
       "confidence": "low",
       "evidence": [
-        "initial board has 18 non-background components"
+        "initial board has 18 non-background components",
+        "progress/end-state actions observed: ['ACTION1']"
       ],
       "family": "pattern_transform",
-      "key_actions": [],
+      "key_actions": [
+        "ACTION1"
+      ],
       "parameters": {
         "background_color": 4,
         "component_summary": [
@@ -1072,17 +1090,40 @@
             "size": 4
           }
         ],
-        "progress_actions": []
+        "progress_actions": [
+          "ACTION1"
+        ]
       },
       "rank": 4,
-      "score": 0.5
+      "score": 2.5
+    },
+    {
+      "confidence": "low",
+      "evidence": [
+        "small color/state changes seen after actions: ['ACTION2']"
+      ],
+      "family": "toggle",
+      "key_actions": [
+        "ACTION2"
+      ],
+      "parameters": {
+        "candidate_actions": [
+          "ACTION2"
+        ]
+      },
+      "rank": 5,
+      "score": 1.0
     }
   ],
-  "key_actions": [],
-  "run_file": "runs/ls20-9607627b_seed0.jsonl",
-  "second_actions": [],
+  "key_actions": [
+    "ACTION1"
+  ],
+  "run_file": "training_runs/ls20-9607627b_seed0.jsonl",
+  "second_actions": [
+    "ACTION1"
+  ],
   "second_family": "push_block",
   "seed": 0,
   "top_family": "collection",
-  "transition_count": 80
+  "transition_count": 200
 }
