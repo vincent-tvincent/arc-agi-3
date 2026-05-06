@@ -40,7 +40,10 @@ arc-agi-3/
       model_families.py
     environment_files/
     recordings/
+  analysis/
+  analysis_csv/
   runs/
+  training_examples/
 ```
 
 Important files:
@@ -54,6 +57,9 @@ Important files:
 - `src/environment_files/` stores downloaded/local ARC-AGI-3 game files.
 - `src/recordings/` stores official toolkit recordings when `save_recording=True`.
 - `runs/` stores this pipeline's compact JSONL transition logs.
+- `training_examples/` stores step-level JSONL examples for model training.
+- `analysis/` stores machine-readable per-run analyzer JSON.
+- `analysis_csv/` stores compact analyzer CSV files for human debugging.
 
 ## API Key
 
@@ -118,6 +124,62 @@ The collector writes compact transition logs like:
 runs/ls20-9607627b_seed0.jsonl
 ```
 
+By default, the collector also writes step-level training examples like:
+
+```text
+training_examples/ls20-9607627b_seed0.examples.jsonl
+```
+
+Each training row represents one observed transition:
+
+```json
+{
+  "example_id": "ls20-9607627b_seed0_step12",
+  "analysis_id": "ls20-9607627b_seed0",
+  "game_id": "ls20-9607627b",
+  "seed": 0,
+  "step": 12,
+  "input": {
+    "frame": [[0, 1, 2]],
+    "available_actions": ["ACTION1", "ACTION2"]
+  },
+  "action": {
+    "name": "ACTION2",
+    "data": {}
+  },
+  "target": {
+    "next_frame": [[0, 2, 2]],
+    "changed_cells": [{"x": 1, "y": 0, "before": 1, "after": 2}]
+  },
+  "outcome": {
+    "state_after": "NOT_FINISHED",
+    "levels_completed_before": 0,
+    "levels_completed_after": 0,
+    "level_delta": 0,
+    "is_win": false,
+    "is_game_over": false,
+    "changed_cell_count": 1,
+    "frame_changed": true
+  },
+  "metadata": {
+    "before_hash": "abc",
+    "after_hash": "def"
+  }
+}
+```
+
+Use `--no-training-export` if you only want the raw transition log:
+
+```bash
+python src/collect_experience.py --game ls20 --steps 80 --offline --no-training-export
+```
+
+Use `--training-out-dir` to choose a different training-example directory:
+
+```bash
+python src/collect_experience.py --game ls20 --steps 80 --offline --training-out-dir data/train
+```
+
 Each JSONL row stores:
 
 ```text
@@ -147,6 +209,36 @@ After collecting a run:
 
 ```bash
 python src/analyze_experience.py runs/ls20-9607627b_seed0.jsonl
+```
+
+The analyzer still prints ranked hypotheses to the terminal. It also writes machine-readable JSON and human-debug CSV by default:
+
+```text
+analysis/ls20-9607627b_seed0.analysis.json
+analysis_csv/ls20-9607627b_seed0.analysis.csv
+```
+
+The analysis JSON contains game-level labels that can be joined to training examples through `analysis_id`:
+
+```json
+{
+  "analysis_id": "ls20-9607627b_seed0",
+  "game_id": "ls20-9607627b",
+  "transition_count": 80,
+  "top_family": "click_select",
+  "key_actions": ["ACTION6"],
+  "second_family": "toggle",
+  "second_actions": ["ACTION5"],
+  "hypotheses": []
+}
+```
+
+You can override either export path:
+
+```bash
+python src/analyze_experience.py runs/ls20-9607627b_seed0.jsonl \
+  --json-out custom.analysis.json \
+  --csv-out custom.analysis.csv
 ```
 
 This prints ranked hypotheses. For example, if the analyzer sees repeated unit movement after actions, it may produce a `navigation` hypothesis with an inferred action map:

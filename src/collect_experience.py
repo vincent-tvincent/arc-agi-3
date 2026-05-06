@@ -12,7 +12,7 @@ import arc_agi
 from arc_agi import OperationMode
 from arcengine import GameAction, GameState
 
-from arc3_pipeline.experience import Transition
+from arc3_pipeline.experience import Transition, transition_to_training_example
 from arc3_pipeline.frame_utils import changed_cells, connected_components, frame_to_grid, grid_hash, background_color
 
 DEFAULT_ENVIRONMENTS_DIR = "src/environment_files"
@@ -25,6 +25,8 @@ def main() -> None:
     parser.add_argument("--steps", type=int, default=80)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--out-dir", default="runs")
+    parser.add_argument("--training-out-dir", default="training_examples")
+    parser.add_argument("--no-training-export", action="store_true", help="Do not write step-level training examples.")
     parser.add_argument("--render", default=None, choices=[None, "terminal", "terminal-fast", "human"])
     parser.add_argument("--offline", action="store_true", help="Use only already-downloaded local games.")
     parser.add_argument("--append", action="store_true", help="Append to an existing run file instead of replacing it.")
@@ -49,7 +51,8 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     for game in selected:
-        collect_game(arc, game.game_id, args.steps, args.seed, out_dir, args.render, args.append)
+        training_out_dir = None if args.no_training_export else Path(args.training_out_dir)
+        collect_game(arc, game.game_id, args.steps, args.seed, out_dir, training_out_dir, args.render, args.append)
 
 
 def collect_game(
@@ -58,6 +61,7 @@ def collect_game(
     steps: int,
     seed: int,
     out_dir: Path,
+    training_out_dir: Path | None,
     render: str | None,
     append: bool,
 ) -> None:
@@ -74,10 +78,17 @@ def collect_game(
         return
 
     run_path = out_dir / f"{game_id.replace('/', '_')}_seed{seed}.jsonl"
+    training_path = None
+    if training_out_dir is not None:
+        training_out_dir.mkdir(parents=True, exist_ok=True)
+        training_path = training_out_dir / f"{game_id.replace('/', '_')}_seed{seed}.examples.jsonl"
     if run_path.exists() and not append:
         run_path.unlink()
+    if training_path is not None and training_path.exists() and not append:
+        training_path.unlink()
     for step in range(steps):
         before = frame_to_grid(obs.frame)
+        before_levels_completed = obs.levels_completed
         action, data = choose_probe_action(env.action_space, before, step)
         next_obs = env.step(action, data=data)
         if next_obs is None:
@@ -101,6 +112,11 @@ def collect_game(
         with run_path.open("a", encoding="utf-8") as file:
             file.write(json.dumps(transition.to_json()) + "\n")
 
+        if training_path is not None:
+            example = transition_to_training_example(transition, seed, before_levels_completed)
+            with training_path.open("a", encoding="utf-8") as file:
+                file.write(json.dumps(example.to_json()) + "\n")
+
         obs = next_obs
         if next_obs.state == GameState.GAME_OVER:
             obs = env.step(GameAction.RESET) or next_obs
@@ -108,6 +124,8 @@ def collect_game(
             break
 
     print(f"wrote {run_path}")
+    if training_path is not None:
+        print(f"wrote {training_path}")
 
 
 def choose_probe_action(action_space: list[GameAction], grid: list[list[int]], step: int) -> tuple[GameAction, dict[str, Any]]:

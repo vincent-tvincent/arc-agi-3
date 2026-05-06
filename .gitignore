@@ -13,6 +13,7 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+pyrightconfig.json
 
 # Virtual environments
 .venv/
@@ -30,4 +31,5 @@ recordings/
 *.swp
 *.swo
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
