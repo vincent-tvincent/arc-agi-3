@@ -1,0 +1,14 @@
+# Tk key names mapped to non-complex ARC actions.
+keys:
+  Up: ACTION1
+  Down: ACTION2
+  Left: ACTION3
+  Right: ACTION4
+  space: ACTION5
+  a: ACTION6
+  s: ACTION7
+  r: RESET
+
+# Used for mouse clicks when the selected game exposes this complex action.
+# If omitted and the game has exactly one complex action, the script uses it.
+mouse_action: ACTION6

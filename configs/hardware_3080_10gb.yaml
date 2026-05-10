@@ -1,0 +1,140 @@
+project:
+  name: arc_agi3_gnn_ppo_agent
+  seed: 42
+  output_dir: runs
+  run_name: gnn_ppo_v1_3080
+
+hardware:
+  device: cuda
+  mixed_precision: true
+  num_workers: 4
+  pin_memory: true
+  compile_model: false
+  max_vram_gb: 9.2
+  ssd_cache_dir: /mnt/ssd/arc_cache
+  hdd_archive_dir: /mnt/hdd/arc_runs
+
+storage:
+  save_replays: true
+  replay_compression: true
+  max_replay_gb: 60
+  checkpoint_keep_last: 3
+  checkpoint_keep_best: 5
+
+perception:
+  grid_mode: true
+  connected_components: true
+  min_component_area: 1
+  merge_same_color_adjacent: true
+  background_color_mode: auto
+
+tracking:
+  method: hungarian
+  max_match_distance: 4
+  iou_weight: 0.4
+  color_weight: 0.3
+  position_weight: 0.3
+
+features:
+  normalize_positions: true
+  include_color_onehot: true
+  max_colors: 16
+  include_motion_delta: true
+  include_action_onehot: true
+  action_space_n: 8
+  include_temporal_flags: true
+
+edge_builder:
+  spatial_radius: 6
+  include_touching_edges: true
+  include_same_color_edges: true
+  include_same_row_col_edges: true
+  include_temporal_edges: true
+  include_candidate_causal_edges: true
+
+belief:
+  initial_probability: 0.1
+  alpha: 0.35
+  beta: 0.2
+  min_probability: 0.01
+  max_probability: 0.99
+
+model:
+  affordances: [blocking, movable, collectible, hazardous, goal_related, trigger, controllable, ui_or_status, unknown_interactable]
+  gnn:
+    type: custom_message_passing
+    node_in_dim: auto
+    edge_in_dim: auto
+    hidden_dim: 128
+    layers: 3
+    heads: 4
+    dropout: 0.1
+    global_pool: attention
+  ppo:
+    graph_embedding_dim: 128
+    belief_feature_dim: 32
+    candidate_feature_dim: 12
+    hidden_dim: 256
+    recurrent: false
+    high_level_actions: 8
+
+planner:
+  low_level_search: astar
+  max_search_nodes: 20000
+  replan_every_step: true
+  execute_plan_steps_before_replan: 1
+  risk_threshold: 0.65
+  unknown_test_bonus: 2.0
+  goal_bonus: 10.0
+  step_cost: 0.02
+  planner_goal_weight: 4.0
+  info_gain_weight: 1.5
+  ppo_weight: 1.0
+  risk_weight: 3.0
+  step_cost_weight: 0.05
+
+mock_env:
+  width: 9
+  height: 9
+  max_steps: 80
+  seed: 42
+
+gnn_training:
+  data_dir: runs/gnn_mock_data
+  epochs: 20
+  batch_size: 1
+  learning_rate: 0.001
+  validation_fraction: 0.2
+
+ppo_training:
+  total_env_steps: 1000000
+  rollout_steps: 512
+  num_envs: 8
+  minibatch_size: 512
+  update_epochs: 4
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_coef: 0.2
+  ent_coef: 0.02
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+  learning_rate: 0.00025
+  target_kl: 0.03
+
+reward:
+  success_bonus: 5.0
+  information_gain_bonus: 0.2
+  causal_relation_bonus: 0.2
+  confidence_bonus: 0.05
+  subgoal_bonus: 0.1
+  step_penalty: 0.01
+  repeated_state_penalty: 0.05
+  hazard_penalty: 2.0
+
+logging:
+  log_interval_steps: 1000
+  eval_interval_steps: 25000
+  checkpoint_interval_steps: 50000
+  use_tensorboard: true
+  use_csv_log: true
+  console_level: info

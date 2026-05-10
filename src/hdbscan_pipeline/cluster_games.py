@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -13,12 +13,12 @@ import numpy as np
 import yaml
 
 try:
-    from .vector_builder import FEATURE_COLUMNS, FeatureRecord, load_feature_matrix
+    from .vector_builder import FEATURE_COLUMNS, FeatureRecord, build_vector_from_file
 except ImportError:
     import sys
 
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    from hdbscan_pipeline.vector_builder import FEATURE_COLUMNS, FeatureRecord, load_feature_matrix
+    from hdbscan_pipeline.vector_builder import FEATURE_COLUMNS, FeatureRecord, build_vector_from_file
 
 SUMMARY_FEATURES = [
     "coordinate_action_rate",
@@ -45,13 +45,34 @@ DEFAULT_CONFIG: dict[str, Any] = {
 
 def main() -> None:
     args = parse_args()
+    debug("config", format_config(args))
 
     example_paths = sorted(Path(args.examples_dir).glob("*.examples.jsonl"))
     if not example_paths:
         raise SystemExit(f"No training examples found in {args.examples_dir!r}.")
+    debug("load", f"found {len(example_paths)} training example files in {args.examples_dir}")
+    debug("load", f"first files: {format_path_preview(example_paths)}")
 
-    analysis_ids, matrix, feature_names, records = load_feature_matrix(example_paths)
+    analysis_ids, matrix, feature_names, records = load_feature_matrix_with_debug(example_paths)
+    row_count = len(matrix)
+    column_count = len(feature_names)
+    transition_counts = [int(record.vector[feature_names.index("transition_count")]) for record in records]
+    debug("vector", f"built matrix rows={row_count} columns={column_count}")
+    debug("vector", f"analysis ids: {format_text_preview(analysis_ids)}")
+    debug("vector", f"transition counts: {format_number_summary(transition_counts)}")
+    debug("vector", f"feature preview: {', '.join(feature_names[:8])}")
+
     scaled = standardize_columns(matrix)
+    constant_columns = count_constant_columns(matrix)
+    debug("scale", f"standardized columns; constant columns={constant_columns}")
+
+    debug(
+        "cluster",
+        (
+            f"requested_method={args.method} min_cluster_size={args.min_cluster_size} "
+            f"min_samples={args.min_samples} n_clusters={args.n_clusters}"
+        ),
+    )
     method, labels, probabilities = cluster_matrix(
         scaled,
         requested_method=args.method,
@@ -59,12 +80,17 @@ def main() -> None:
         min_samples=args.min_samples,
         n_clusters=args.n_clusters,
     )
+    debug("cluster", f"actual_method={method}")
+    debug("cluster", f"label distribution: {format_label_distribution(labels)}")
+    debug("cluster", f"probabilities: {format_number_summary(probabilities)}")
 
     rows = build_assignment_rows(records, labels, probabilities)
     summaries = build_cluster_summaries(rows, records, labels)
+    debug("cluster", format_cluster_preview(summaries))
 
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+    debug("write", f"writing outputs to {out_dir}")
     write_assignments_csv(out_dir / "game_clusters.csv", rows)
     write_summary_json(
         out_dir / "game_clusters.json",
@@ -123,6 +149,88 @@ def load_yaml_config(path: Path) -> dict[str, Any]:
     if unknown:
         raise SystemExit(f"Unknown config key(s) in {path}: {', '.join(unknown)}")
     return loaded
+
+
+def load_feature_matrix_with_debug(
+    paths: list[Path],
+    progress_interval: int = 25,
+) -> tuple[list[str], list[list[float]], list[str], list[FeatureRecord]]:
+    records: list[FeatureRecord] = []
+    total = len(paths)
+    for index, path in enumerate(paths, start=1):
+        records.append(build_vector_from_file(path))
+        if index == 1 or index % progress_interval == 0 or index == total:
+            debug("vector", f"processed {index}/{total} files; latest={path.name}")
+
+    return (
+        [record.analysis_id for record in records],
+        [record.vector for record in records],
+        list(FEATURE_COLUMNS),
+        records,
+    )
+
+
+def debug(stage: str, message: str) -> None:
+    print(f"[{stage}] {message}", flush=True)
+
+
+def format_config(args: argparse.Namespace) -> str:
+    parts = []
+    for key in ["config", "examples_dir", "out_dir", "method", "min_cluster_size", "min_samples", "n_clusters"]:
+        parts.append(f"{key}={getattr(args, key)!r}")
+    return " ".join(parts)
+
+
+def format_path_preview(paths: list[Path], limit: int = 3) -> str:
+    shown = [str(path) for path in paths[:limit]]
+    suffix = f", ... +{len(paths) - limit} more" if len(paths) > limit else ""
+    return ", ".join(shown) + suffix
+
+
+def format_text_preview(values: list[str], limit: int = 5) -> str:
+    shown = values[:limit]
+    suffix = f", ... +{len(values) - limit} more" if len(values) > limit else ""
+    return ", ".join(shown) + suffix
+
+
+def format_number_summary(values: list[int] | list[float]) -> str:
+    if not values:
+        return "empty"
+    numeric = [float(value) for value in values]
+    mean = sum(numeric) / len(numeric)
+    return f"min={min(numeric):.3f} mean={mean:.3f} max={max(numeric):.3f}"
+
+
+def count_constant_columns(matrix: list[list[float]]) -> int:
+    if not matrix:
+        return 0
+    column_count = len(matrix[0])
+    constant_count = 0
+    for col in range(column_count):
+        values = {row[col] for row in matrix}
+        if len(values) <= 1:
+            constant_count += 1
+    return constant_count
+
+
+def format_label_distribution(labels: list[int]) -> str:
+    counts = Counter(labels)
+    return ", ".join(f"{label}:{counts[label]}" for label in sorted(counts))
+
+
+def format_cluster_preview(summaries: list[dict[str, Any]], limit: int = 8) -> str:
+    if not summaries:
+        return "no clusters to summarize"
+
+    parts = []
+    for summary in summaries[:limit]:
+        cluster_id = summary["cluster_id"]
+        size = summary["size"]
+        members = summary["members"][:3]
+        more = f", +{len(summary['members']) - 3} more" if len(summary["members"]) > 3 else ""
+        parts.append(f"{cluster_id}: size={size} members={members}{more}")
+    suffix = f"; ... +{len(summaries) - limit} clusters" if len(summaries) > limit else ""
+    return "cluster preview: " + "; ".join(parts) + suffix
 
 
 def cluster_matrix(

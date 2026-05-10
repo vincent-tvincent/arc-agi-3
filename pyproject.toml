@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arc-agi3-gnn-ppo-agent"
+version = "0.1.0"
+description = "Object-centric GNN + PPO training pipeline for ARC-AGI-3 research."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.24",
+    "PyYAML>=6.0",
+    "scipy>=1.10",
+]
+
+[project.optional-dependencies]
+train = [
+    "torch>=2.2",
+    "tensorboard>=2.14",
+]
+arcagi3 = [
+    "python-dotenv>=1.0",
+]
+dev = [
+    "pytest>=7.4",
+]
+
+[project.scripts]
+arc-agent-collect-rollouts = "arc_agent.cli.collect_rollouts:main"
+arc-agent-train-gnn = "arc_agent.cli.train_gnn:main"
+arc-agent-train-ppo = "arc_agent.cli.train_ppo:main"
+arc-agent-evaluate = "arc_agent.cli.evaluate_agent:main"
+arc-agent-inspect-graphs = "arc_agent.cli.inspect_graphs:main"
+arc-agent-replay-episode = "arc_agent.cli.replay_episode:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = ["-p", "no:napari"]

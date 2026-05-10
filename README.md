@@ -31,35 +31,52 @@ arc-agi-3/
   TRAINING_PIPELINE.md
   .env.example
   src/
-    quickstart.py
-    collect_experience.py
     analyze_experience.py
+    experience_collection/
+      quickstart.py
+      collect_experience.py
+      batch_collect_training.py
+      batch_collect_training.example.yaml
+    playground/
+      manual_play.py
+      manual_play_keymap.yaml
     arc3_pipeline/
       frame_utils.py
       experience.py
       model_families.py
-    environment_files/
-    recordings/
+    hdbscan_pipeline/
+      vector_builder.py
+      cluster_games.py
+  environment_files/
+  recordings/
   analysis/
   analysis_csv/
+  clusters/
   runs/
+  training_runs/
   training_examples/
 ```
 
 Important files:
 
-- `src/quickstart.py` is the original quick smoke-test script for the official toolkit.
-- `src/collect_experience.py` runs a probing policy against one or more games and writes transition data to `runs/`.
+- `src/experience_collection/quickstart.py` is the original quick smoke-test script for the official toolkit.
+- `src/experience_collection/collect_experience.py` runs a probing policy against one or more games and writes transition data to `runs/`.
+- `src/experience_collection/batch_collect_training.py` collects every available game with configurable steps/seeds from a YAML file.
+- `src/playground/manual_play.py` opens an interactive grid playground using key bindings and mouse clicks.
 - `src/analyze_experience.py` reads a collected run and prints ranked model-family hypotheses.
 - `src/arc3_pipeline/frame_utils.py` contains frame conversion, hashing, changed-cell detection, color counts, background detection, and connected-component extraction.
 - `src/arc3_pipeline/experience.py` defines the `Transition` record saved by the collector.
 - `src/arc3_pipeline/model_families.py` contains the bounded hypothesis generator.
+- `src/hdbscan_pipeline/vector_builder.py` converts training examples into fixed-length run vectors.
+- `src/hdbscan_pipeline/cluster_games.py` clusters those vectors for unsupervised game-type discovery.
 - `environment_files/` stores downloaded/local ARC-AGI-3 game files.
 - `recordings/` stores official toolkit recordings when `save_recording=True`.
 - `runs/` stores this pipeline's compact JSONL transition logs.
+- `training_runs/` is the recommended raw-transition output directory for larger training collections.
 - `training_examples/` stores step-level JSONL examples for model training.
 - `analysis/` stores machine-readable per-run analyzer JSON.
 - `analysis_csv/` stores compact analyzer CSV files for human debugging.
+- `clusters/` stores unsupervised clustering outputs.
 
 ## API Key
 
@@ -100,22 +117,42 @@ If you recreate the venv later, keep it in one stable location. Python virtual e
 
 ## Collect Experience
 
+The collector now uses root-level environment and recording directories by default:
+
+```text
+environment_files/
+recordings/
+```
+
+So from the project root, offline collection will load games from `environment_files/`, and toolkit recordings will be written to `recordings/`.
+
+If you need custom locations, use:
+
+```bash
+python src/experience_collection/collect_experience.py \
+  --game ls20 \
+  --steps 80 \
+  --offline \
+  --environments-dir environment_files \
+  --recordings-dir recordings
+```
+
 To collect transitions from the downloaded `ls20` game without contacting the API:
 
 ```bash
-python src/collect_experience.py --game ls20 --steps 80 --offline
+python src/experience_collection/collect_experience.py --game ls20 --steps 80 --offline
 ```
 
 To render in the terminal while collecting:
 
 ```bash
-python src/collect_experience.py --game ls20 --steps 80 --offline --render terminal-fast
+python src/experience_collection/collect_experience.py --game ls20 --steps 80 --offline --render terminal-fast
 ```
 
 To collect every game available to your API key:
 
 ```bash
-python src/collect_experience.py --game all --steps 80
+python src/experience_collection/collect_experience.py --game all --steps 80
 ```
 
 The collector writes compact transition logs like:
@@ -127,13 +164,46 @@ runs/ls20-9607627b_seed0.jsonl
 To generate files under `training_runs/` instead, pass `--out-dir training_runs`:
 
 ```bash
-python src/collect_experience.py --game ls20 --steps 80 --offline --out-dir training_runs
+python src/experience_collection/collect_experience.py --game ls20 --steps 80 --offline --out-dir training_runs
 ```
 
 To regenerate one run file per downloaded local game under `training_runs/`:
 
 ```bash
-python src/collect_experience.py --game all --steps 80 --offline --out-dir training_runs
+python src/experience_collection/collect_experience.py --game all --steps 80 --offline --out-dir training_runs
+```
+
+For real training data collection, prefer writing raw transition logs and training examples together:
+
+```bash
+python src/experience_collection/collect_experience.py \
+  --game all \
+  --steps 200 \
+  --offline \
+  --out-dir training_runs \
+  --training-out-dir training_examples
+```
+
+This produces:
+
+```text
+training_runs/<game_id>_seed0.jsonl
+training_examples/<game_id>_seed0.examples.jsonl
+```
+
+To run multiple seeds per game, either call the collector with `--seed` repeatedly or use the YAML-driven batch collector.
+
+Example batch collection:
+
+```bash
+python src/experience_collection/batch_collect_training.py --config src/experience_collection/batch_collect_training.example.yaml
+```
+
+The batch collector reads settings such as `steps`, `seeds`, `offline`, `environments_dir`, `recordings_dir`, `out_dir`, and `training_out_dir` from YAML. The example config is commented, and its default output directories are:
+
+```text
+training_runs/
+training_examples/
 ```
 
 By default, the collector also writes step-level training examples like:
@@ -183,13 +253,13 @@ Each training row represents one observed transition:
 Use `--no-training-export` if you only want the raw transition log:
 
 ```bash
-python src/collect_experience.py --game ls20 --steps 80 --offline --no-training-export
+python src/experience_collection/collect_experience.py --game ls20 --steps 80 --offline --no-training-export
 ```
 
 Use `--training-out-dir` to choose a different training-example directory:
 
 ```bash
-python src/collect_experience.py --game ls20 --steps 80 --offline --training-out-dir data/train
+python src/experience_collection/collect_experience.py --game ls20 --steps 80 --offline --training-out-dir data/train
 ```
 
 Each JSONL row stores:
@@ -212,7 +282,7 @@ available_actions
 By default, a run file is replaced each time. Add `--append` if you want to accumulate more probes in the same file:
 
 ```bash
-python src/collect_experience.py --game ls20 --steps 80 --offline --append
+python src/experience_collection/collect_experience.py --game ls20 --steps 80 --offline --append
 ```
 
 ## Analyze Experience
@@ -263,6 +333,74 @@ ACTION4 -> RIGHT
 ```
 
 The exact output depends on the transitions collected. Short or uninformative probing runs may produce only low-confidence hypotheses.
+
+## Manual Playground
+
+The manual playground reads non-complex keyboard bindings from a keymap file and sends mouse clicks as complex coordinate actions:
+
+```bash
+python src/playground/manual_play.py ls20
+```
+
+Use a custom keymap with:
+
+```bash
+python src/playground/manual_play.py cn04 --keymap src/playground/manual_play_keymap.yaml
+```
+
+The keymap format is:
+
+```yaml
+keys:
+  Up: ACTION1
+  Down: ACTION2
+  Left: ACTION3
+  Right: ACTION4
+mouse_action: ACTION6
+```
+
+## Cluster Game Runs
+
+After collecting training examples, run HDBSCAN clustering from the project root:
+
+```bash
+python src/hdbscan_pipeline/cluster_games.py \
+  --examples-dir training_examples \
+  --out-dir clusters \
+  --method hdbscan
+```
+
+This pipeline does not consume the old hardcoded analyzer results. It builds fixed-length vectors directly from `training_examples/*.examples.jsonl`, then clusters game runs from those transition statistics.
+
+The default HDBSCAN outputs are:
+
+```text
+clusters/game_clusters.csv
+clusters/game_clusters.json
+clusters/feature_columns.json
+```
+
+Use the YAML config when you want repeatable clustering settings:
+
+```bash
+python src/hdbscan_pipeline/cluster_games.py --config src/hdbscan_pipeline/config.example.yaml
+```
+
+CLI arguments still override YAML values. For example:
+
+```bash
+python src/hdbscan_pipeline/cluster_games.py \
+  --config src/hdbscan_pipeline/config.example.yaml \
+  --min-cluster-size 4 \
+  --min-samples 2
+```
+
+Main tunable HDBSCAN parameters:
+
+- `min_cluster_size`: minimum number of runs needed to form a cluster.
+- `min_samples`: how conservative the model is about marking points as outliers.
+
+Cluster label `-1` means HDBSCAN treated that run as noise or an outlier, not as a discovered game type.
 
 ## Model Families
 
@@ -336,3 +474,62 @@ The next useful additions are:
 5. Add a benchmark script that runs collection and analysis across all available games.
 
 This scaffold is the lab bench: it gathers evidence, summarizes it, and gives you places to plug in stronger reasoning.
+
+## GNN + PPO Agent Pipeline
+
+This repo now also includes an additive object-centric agent under `src/arc_agent/`. It follows the plan in `arc_agi3_gnn_ppo_implementation_plan.md`: grid segmentation, object tracking, graph construction, belief updates, candidate subgoals, A* planning, optional GNN affordance prediction, and PPO high-level strategy selection.
+
+The command implementations live in `src/arc_agent/cli/`. The root `scripts/` files are compatibility wrappers for the command patterns in the implementation plan.
+
+Install from the project root:
+
+```bash
+pip install -e .
+pip install -e .[train]
+```
+
+Run the focused tests:
+
+```bash
+pytest tests -q
+```
+
+Collect synthetic/mock rollout data:
+
+```bash
+python scripts/collect_rollouts.py --config configs/train_gnn.yaml --env mock --episodes 5000
+```
+
+Train the GNN:
+
+```bash
+python scripts/train_gnn.py --config configs/train_gnn.yaml
+```
+
+Train PPO with a pretrained GNN:
+
+```bash
+python scripts/train_ppo.py --config configs/train_ppo.yaml --pretrained-gnn runs/<run>/checkpoints/gnn_best_val_f1.pt
+```
+
+Resume PPO:
+
+```bash
+python scripts/train_ppo.py --config configs/train_ppo.yaml --resume runs/<run>/checkpoints/ppo_latest.pt
+```
+
+Evaluate:
+
+```bash
+python scripts/evaluate_agent.py --config configs/debug_cpu.yaml --env mock --episodes 20
+python scripts/evaluate_agent.py --config configs/hardware_3080_10gb.yaml --env arcagi3 --checkpoint runs/<run>/checkpoints/ppo_best_success.pt
+```
+
+Replay and inspect:
+
+```bash
+python scripts/replay_episode.py --replay runs/<run>/eval/replays/episode_0000.json.gz
+python scripts/inspect_graphs.py --replay runs/<run>/eval/replays/episode_0000.json.gz --step 10
+```
+
+Logs, metrics, replays, and checkpoints are stored under `runs/<run_name>/`. The detailed docs are in `docs/architecture.md`, `docs/training.md`, `docs/data_format.md`, and `docs/evaluation.md`.
