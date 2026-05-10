@@ -2,7 +2,7 @@
 steps: 200
 
 # Number of seeds to run for each selected game.
-num_seeds: 100
+num_seeds: 10
 
 # First seed value. With seed_start: 0 and num_seeds: 5, seeds are 0-4.
 seed_start: 0

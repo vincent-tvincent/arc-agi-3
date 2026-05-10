@@ -7,6 +7,7 @@ import argparse
 import sys
 import time
 from pathlib import Path
+from typing import Any
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
@@ -83,18 +84,28 @@ def main() -> None:
 
     epochs = int(config.get("gnn_training", {}).get("epochs", 10))
     batch_size = max(1, int(config.get("gnn_training", {}).get("batch_size", 1)))
+    shuffle = bool(config.get("gnn_training", {}).get("shuffle", False))
     progress_interval = max(1, int(config.get("logging", {}).get("log_interval_steps", 1000)))
+    pos_weight = build_positive_weight(train_set, config.get("gnn_training", {}), device, logger)
+    rng = np.random.default_rng(int(config.get("project", {}).get("seed", 42)))
     for epoch in range(start_epoch, epochs):
         model.train()
         losses: list[float] = []
         epoch_start = time.perf_counter()
+        order = np.arange(len(train_set))
+        if shuffle:
+            rng.shuffle(order)
         for start_idx in range(0, len(train_set), batch_size):
             end_idx = min(start_idx + batch_size, len(train_set))
-            graph, labels = batch_graph_examples([train_set[idx] for idx in range(start_idx, end_idx)])
+            graph, labels = batch_graph_examples([train_set[int(order[idx])] for idx in range(start_idx, end_idx)])
             torch_graph = graph.to_torch(device)
             target = torch.as_tensor(labels, dtype=torch.float32, device=device)
             output = model(torch_graph)
-            loss = torch.nn.functional.binary_cross_entropy_with_logits(output.affordance_logits, target)
+            loss = torch.nn.functional.binary_cross_entropy_with_logits(
+                output.affordance_logits,
+                target,
+                pos_weight=pos_weight,
+            )
             optimizer.zero_grad(set_to_none=True)
             loss.backward()
             optimizer.step()
@@ -166,6 +177,43 @@ def evaluate(model, dataset, device: str, batch_size: int = 1) -> dict[str, floa
         f1s.append(f1)
     metrics["val/mean_f1"] = float(np.mean(f1s)) if f1s else 0.0
     return metrics
+
+
+def build_positive_weight(dataset: Any, train_config: dict[str, Any], device: str, logger: RunLogger):
+    import torch
+
+    spec = train_config.get("positive_weight")
+    if spec in (None, False, 0, "false", "none", "off"):
+        return None
+    if isinstance(spec, int | float):
+        values = np.full((len(AFFORDANCE_NAMES),), float(spec), dtype=np.float32)
+    elif isinstance(spec, list):
+        values = np.asarray(spec, dtype=np.float32)
+        if values.shape[0] != len(AFFORDANCE_NAMES):
+            raise ValueError(f"positive_weight must have {len(AFFORDANCE_NAMES)} values.")
+    elif str(spec).lower() == "auto":
+        sample_rows = min(len(dataset), max(1, int(train_config.get("positive_weight_sample_rows", 2000))))
+        max_weight = max(1.0, float(train_config.get("positive_weight_max", 20.0)))
+        indices = np.linspace(0, len(dataset) - 1, num=sample_rows, dtype=np.int64)
+        positives = np.zeros((len(AFFORDANCE_NAMES),), dtype=np.float64)
+        node_count = 0
+        start = time.perf_counter()
+        for idx in indices:
+            _, labels = dataset[int(idx)]
+            positives += labels.sum(axis=0)
+            node_count += labels.shape[0]
+        negatives = max(node_count, 1) - positives
+        values = np.ones((len(AFFORDANCE_NAMES),), dtype=np.float32)
+        present = positives > 0
+        values[present] = np.clip(negatives[present] / positives[present], 1.0, max_weight).astype(np.float32)
+        logger.event(
+            "estimated positive weights "
+            f"sample_rows={sample_rows} sample_nodes={node_count} elapsed_sec={time.perf_counter() - start:.1f} "
+            f"weights={dict(zip(AFFORDANCE_NAMES, [round(float(item), 3) for item in values]))}"
+        )
+    else:
+        raise ValueError("positive_weight must be auto, a number, a list, false, or none.")
+    return torch.as_tensor(values, dtype=torch.float32, device=device)
 
 
 if __name__ == "__main__":

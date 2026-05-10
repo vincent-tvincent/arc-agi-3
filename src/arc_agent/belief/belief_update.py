@@ -42,19 +42,25 @@ class BeliefUpdater:
         last_done: bool = False,
     ) -> BeliefState:
         delta = delta or TransitionDelta(reward_delta=last_reward, done=last_done)
+
         if graph is not None:
             self._ensure_graph_objects(belief, graph)
             self._blend_gnn_priors(belief, graph, gnn_output)
+
         if delta.failed_movement_blocker is not None:
             self.increase(belief, delta.failed_movement_blocker, "blocking", 1.0)
             belief.blocked_cells.add(self._object_position(graph, delta.failed_movement_blocker))
+
         if delta.contact_object_id is not None:
             belief.unknown_objects.discard(delta.contact_object_id)
+
         for object_id in delta.disappeared_object_ids:
             self.increase(belief, object_id, "collectible", 1.0)
             self.decrease(belief, object_id, "blocking", 0.3)
+
         for object_id in delta.moved_object_ids:
             self.increase(belief, object_id, "movable", 1.0)
+
         if delta.contact_object_id is not None:
             for object_id in delta.remote_changed_object_ids:
                 edge = belief.causal_edges.setdefault((delta.contact_object_id, object_id), {"probability": 0.1, "evidence_count": 0.0})
@@ -62,15 +68,19 @@ class BeliefUpdater:
                 edge["probability"] = self._clamp(old + self.alpha * (1.0 - old))
                 edge["evidence_count"] = float(edge.get("evidence_count", 0.0)) + 1.0
                 self.increase(belief, delta.contact_object_id, "trigger", 0.7)
+
         if delta.contact_object_id is not None and (delta.reward_delta > 0 or delta.done):
             self.increase(belief, delta.contact_object_id, "goal_related", 1.0)
             belief.goals.add(delta.contact_object_id)
+
         if delta.death_like and delta.contact_object_id is not None:
             self.increase(belief, delta.contact_object_id, "hazardous", 1.0)
             belief.hazards.add(delta.contact_object_id)
+
         if delta.state_hash:
             belief.visited_states.add(delta.state_hash)
         if graph is not None and graph.action_context is not None and float(graph.action_context.sum()) > 0:
+
             belief.last_action = int(graph.action_context.argmax().item())
         belief.step_count += 1
         return belief

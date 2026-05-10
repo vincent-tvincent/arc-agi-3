@@ -73,11 +73,15 @@ gnn_training:
   data_dir: /run/media/blue-lobster/disk3/CS274p_output/training_examples
   data_format: arc
   lazy_index: false
-  index_workers: 20
+  index_workers: 8
   epochs: 20
-  batch_size: 16
-  learning_rate: 0.001
-  validation_fraction: 0.2
+  batch_size: 24
+  learning_rate: 0.0003
+  validation_fraction: 0.1
+  shuffle: true
+  positive_weight: auto
+  positive_weight_sample_rows: 2000
+  positive_weight_max: 20.0
 
 logging:
   log_interval_steps: 100
