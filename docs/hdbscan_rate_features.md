@@ -1,6 +1,6 @@
 # HDBSCAN Rate Feature Reference
 
-The HDBSCAN vector builder aggregates each `training_examples/*.examples.jsonl` file into one numeric vector. Rate features are fractions in `[0, 1]`.
+The HDBSCAN vector builder aggregates each `/run/media/blue-lobster/disk3/CS274p_output/training_examples/*.examples.jsonl` file into one numeric vector. Rate features are fractions in `[0, 1]`.
 
 Implementation source: `src/hdbscan_pipeline/vector_builder.py`.
 

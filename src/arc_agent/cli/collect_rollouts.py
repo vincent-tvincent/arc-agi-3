@@ -24,7 +24,7 @@ def main() -> None:
 
     config = load_config(args.config)
     set_global_seed(int(config.get("project", {}).get("seed", 42)))
-    data_dir = Path(config.get("gnn_training", {}).get("data_dir", "runs/gnn_mock_data"))
+    data_dir = Path(config.get("gnn_training", {}).get("data_dir", "/run/media/blue-lobster/disk3/CS274p_output/runs/gnn_mock_data"))
     data_dir.mkdir(parents=True, exist_ok=True)
     out_path = data_dir / "mock_rollouts.jsonl"
     env = MockGridEnv(config.get("mock_env", {}))

@@ -36,6 +36,8 @@ class MessagePassingLayer(nn.Module if nn is not None else object):
         self.norm = nn.LayerNorm(hidden_dim)
 
     def forward(self, x: Any, edge_index: Any, edge_attr: Any) -> Any:
+        if torch is None:
+            raise RuntimeError("PyTorch is required for MessagePassingLayer.")
         if edge_index.numel() == 0:
             return self.norm(x)
         source, target = edge_index[0], edge_index[1]
@@ -67,6 +69,8 @@ class GNNAffordanceModel(nn.Module if nn is not None else object):
         self.pool_gate = nn.Sequential(nn.Linear(hidden_dim, 1), nn.Sigmoid())
 
     def forward(self, graph: Any) -> GNNOutput:
+        if torch is None:
+            raise RuntimeError("PyTorch is required for GNNAffordanceModel.")
         x = self.node_encoder(graph.node_features)
         for layer in self.layers:
             x = layer(x, graph.edge_index, graph.edge_attr)

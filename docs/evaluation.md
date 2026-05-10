@@ -9,21 +9,21 @@ python scripts/evaluate_agent.py --config configs/debug_cpu.yaml --env mock --ep
 Artifacts are stored under:
 
 ```text
-runs/<run_name>/eval/
-runs/<run_name>/eval/replays/
-runs/<run_name>/logs/
+/run/media/blue-lobster/disk3/CS274p_output/runs/<run_name>/eval/
+/run/media/blue-lobster/disk3/CS274p_output/runs/<run_name>/eval/replays/
+/run/media/blue-lobster/disk3/CS274p_output/runs/<run_name>/logs/
 ```
 
 Inspect a saved replay:
 
 ```bash
-python scripts/replay_episode.py --replay runs/<run_name>/eval/replays/episode_0000.json.gz
+python scripts/replay_episode.py --replay /run/media/blue-lobster/disk3/CS274p_output/runs/<run_name>/eval/replays/episode_0000.json.gz
 ```
 
 Inspect graph construction for a replay step:
 
 ```bash
-python scripts/inspect_graphs.py --replay runs/<run_name>/eval/replays/episode_0000.json.gz --step 10
+python scripts/inspect_graphs.py --replay /run/media/blue-lobster/disk3/CS274p_output/runs/<run_name>/eval/replays/episode_0000.json.gz --step 10
 ```
 
 ## ARC-AGI-3 Adapter

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Train the GNN affordance model on synthetic/mock graph labels."""
+"""Train the GNN affordance model on mock labels or official ARC rollouts."""
 
 from __future__ import annotations
 
 import argparse
 import sys
+import time
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
@@ -14,7 +15,7 @@ import numpy as np
 from arc_agent.graph.graph_features import AFFORDANCE_NAMES
 from arc_agent.models.gnn_affordance import GNNAffordanceModel
 from arc_agent.training.checkpointing import CheckpointManager, build_checkpoint
-from arc_agent.training.gnn_dataset import MockGNNDataset
+from arc_agent.training.gnn_dataset import batch_graph_examples, make_gnn_dataset
 from arc_agent.training.logging_utils import RunLogger
 from arc_agent.training.metrics import binary_f1
 from arc_agent.utils.config import load_config, run_dir
@@ -25,6 +26,8 @@ from arc_agent.utils.seed import set_global_seed
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="configs/train_gnn.yaml")
+    parser.add_argument("--data-dir", default=None, help="Override gnn_training.data_dir.")
+    parser.add_argument("--data-format", default=None, choices=["auto", "mock", "arc", "official"], help="Override gnn_training.data_format.")
     parser.add_argument("--resume", default=None)
     args = parser.parse_args()
     if not torch_available():
@@ -37,12 +40,29 @@ def main() -> None:
     root = run_dir(config)
     logger = RunLogger(config.get("project", {}).get("run_name", "train_gnn"), root / "logs", True, config.get("logging", {}).get("use_tensorboard", False))
     manager = CheckpointManager(root / "checkpoints", int(config.get("storage", {}).get("checkpoint_keep_last", 3)))
-    dataset = MockGNNDataset(config.get("gnn_training", {}).get("data_dir", "runs/gnn_mock_data"), config)
+    train_cfg = config.get("gnn_training", {})
+    data_dir = args.data_dir or train_cfg.get("data_dir", "/run/media/blue-lobster/disk3/CS274p_output/runs/gnn_mock_data")
+    data_format = args.data_format or train_cfg.get("data_format", "auto")
+    logger.event(f"starting GNN setup config={args.config} data_dir={data_dir} data_format={data_format} requested_device={config.get('hardware', {}).get('device', 'auto')} selected_device={device}")
+    logger.event("indexing/loading GNN dataset; official ARC JSONL indexing is CPU/disk work and happens before GPU training starts")
+    dataset = make_gnn_dataset(data_dir, config, data_format, progress_callback=logger.event)
     if len(dataset) == 0:
-        raise SystemExit("No GNN training data found. Run `python scripts/collect_rollouts.py --config configs/train_gnn.yaml --env mock --episodes 5000` first.")
+        raise SystemExit(
+            "No GNN training data found. For mock data run "
+            "`python scripts/collect_rollouts.py --config configs/train_gnn.yaml --env mock --episodes 5000`; "
+            "for official ARC data run "
+            "`python src/experience_collection/collect_experience.py --game all --steps 200 --offline "
+            "--out-dir /run/media/blue-lobster/disk3/CS274p_output/training_runs "
+            "--training-out-dir /run/media/blue-lobster/disk3/CS274p_output/training_examples`."
+        )
     train_set, val_set = dataset.split(float(config.get("gnn_training", {}).get("validation_fraction", 0.2)))
+    logger.event(
+        f"loaded dataset type={dataset.__class__.__name__} data_dir={data_dir} "
+        f"data_format={data_format} rows={len(dataset)} train={len(train_set)} val={len(val_set)} device={device}"
+    )
     graph0, _ = dataset[0]
     model_cfg = config.get("model", {}).get("gnn", {})
+
     model = GNNAffordanceModel(
         node_in_dim=graph0.node_feature_dim,
         edge_in_dim=graph0.edge_feature_dim,
@@ -51,6 +71,7 @@ def main() -> None:
         num_affordances=len(AFFORDANCE_NAMES),
         dropout=float(model_cfg.get("dropout", 0.1)),
     ).to(device)
+
     optimizer = torch.optim.Adam(model.parameters(), lr=float(config.get("gnn_training", {}).get("learning_rate", 0.001)))
     start_epoch = 0
     best_f1 = 0.0
@@ -61,11 +82,15 @@ def main() -> None:
         start_epoch = int(checkpoint.get("epoch") or 0) + 1
 
     epochs = int(config.get("gnn_training", {}).get("epochs", 10))
+    batch_size = max(1, int(config.get("gnn_training", {}).get("batch_size", 1)))
+    progress_interval = max(1, int(config.get("logging", {}).get("log_interval_steps", 1000)))
     for epoch in range(start_epoch, epochs):
         model.train()
         losses: list[float] = []
-        for idx in range(len(train_set)):
-            graph, labels = train_set[idx]
+        epoch_start = time.perf_counter()
+        for start_idx in range(0, len(train_set), batch_size):
+            end_idx = min(start_idx + batch_size, len(train_set))
+            graph, labels = batch_graph_examples([train_set[idx] for idx in range(start_idx, end_idx)])
             torch_graph = graph.to_torch(device)
             target = torch.as_tensor(labels, dtype=torch.float32, device=device)
             output = model(torch_graph)
@@ -74,7 +99,24 @@ def main() -> None:
             loss.backward()
             optimizer.step()
             losses.append(float(loss.detach().cpu()))
-        val_metrics = evaluate(model, val_set, device)
+            completed = end_idx
+            if start_idx == 0 or completed % progress_interval == 0 or completed == len(train_set):
+                elapsed = time.perf_counter() - epoch_start
+                rows_per_sec = completed / max(elapsed, 1e-9)
+                logger.log_metrics(
+                    "train_gnn_progress",
+                    epoch * max(len(train_set), 1) + completed,
+                    {
+                        "epoch": epoch,
+                        "row": completed,
+                        "rows": len(train_set),
+                        "batch_size": batch_size,
+                        "nodes": graph.num_nodes,
+                        "loss": round(float(np.mean(losses[-min(len(losses), progress_interval) :])), 6),
+                        "rows_per_sec": round(rows_per_sec, 2),
+                    },
+                )
+        val_metrics = evaluate(model, val_set, device, batch_size)
         metrics = {"train/loss": float(np.mean(losses)) if losses else 0.0, **val_metrics}
         logger.log_metrics("train_gnn", epoch, metrics)
         checkpoint = build_checkpoint(
@@ -94,7 +136,7 @@ def main() -> None:
     logger.close()
 
 
-def evaluate(model, dataset, device: str) -> dict[str, float]:
+def evaluate(model, dataset, device: str, batch_size: int = 1) -> dict[str, float]:
     import torch
 
     model.eval()
@@ -102,8 +144,10 @@ def evaluate(model, dataset, device: str) -> dict[str, float]:
     predictions: list[list[int]] = [[] for _ in AFFORDANCE_NAMES]
     targets: list[list[int]] = [[] for _ in AFFORDANCE_NAMES]
     with torch.no_grad():
-        for idx in range(len(dataset)):
-            graph, labels = dataset[idx]
+        for start_idx in range(0, len(dataset), batch_size):
+            graph, labels = batch_graph_examples(
+                [dataset[idx] for idx in range(start_idx, min(start_idx + batch_size, len(dataset)))]
+            )
             torch_graph = graph.to_torch(device)
             target = torch.as_tensor(labels, dtype=torch.float32, device=device)
             output = model(torch_graph)

@@ -34,8 +34,8 @@ SUMMARY_FEATURES = [
 ]
 
 DEFAULT_CONFIG: dict[str, Any] = {
-    "examples_dir": "training_examples",
-    "out_dir": "clusters",
+    "examples_dir": "/run/media/blue-lobster/disk3/CS274p_output/training_examples",
+    "out_dir": "/run/media/blue-lobster/disk3/CS274p_output/clusters",
     "method": "auto",
     "min_cluster_size": 3,
     "min_samples": 2,

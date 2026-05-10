@@ -1,11 +1,11 @@
 project:
   name: arc_agi3_gnn_ppo_agent
   seed: 42
-  output_dir: runs
+  output_dir: /run/media/blue-lobster/disk3/CS274p_output/runs
   run_name: train_gnn_mock
 
 hardware:
-  device: auto
+  device: cuda
   mixed_precision: true
   num_workers: 4
   pin_memory: true
@@ -76,9 +76,9 @@ mock_env:
   seed: 42
 
 gnn_training:
-  data_dir: runs/gnn_mock_data
+  data_dir: /run/media/blue-lobster/disk3/CS274p_output/runs/gnn_mock_data
   epochs: 20
-  batch_size: 1
+  batch_size: 16
   learning_rate: 0.001
   validation_fraction: 0.2
 

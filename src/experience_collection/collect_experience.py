@@ -19,7 +19,10 @@ from arc3_pipeline.experience import Transition, transition_to_training_example
 from arc3_pipeline.frame_utils import changed_cells, connected_components, frame_to_grid, grid_hash, background_color
 
 DEFAULT_ENVIRONMENTS_DIR = "environment_files"
-DEFAULT_RECORDINGS_DIR = "recordings"
+DEFAULT_OUTPUT_ROOT = "/run/media/blue-lobster/disk3/CS274p_output"
+DEFAULT_RUNS_DIR = f"{DEFAULT_OUTPUT_ROOT}/training_runs"
+DEFAULT_TRAINING_EXAMPLES_DIR = f"{DEFAULT_OUTPUT_ROOT}/training_examples"
+DEFAULT_RECORDINGS_DIR = f"{DEFAULT_OUTPUT_ROOT}/recordings"
 
 
 def main() -> None:
@@ -31,8 +34,8 @@ def main() -> None:
         "--action",
         help="Use a controlled action instead of the probe policy, e.g. ACTION1, 1, or 'ACTION6 3 5'.",
     )
-    parser.add_argument("--out-dir", default="runs")
-    parser.add_argument("--training-out-dir", default="training_examples")
+    parser.add_argument("--out-dir", default=DEFAULT_RUNS_DIR)
+    parser.add_argument("--training-out-dir", default=DEFAULT_TRAINING_EXAMPLES_DIR)
     parser.add_argument("--no-training-export", action="store_true", help="Do not write step-level training examples.")
     parser.add_argument("--render", default=None, choices=[None, "terminal", "terminal-fast", "human"])
     parser.add_argument("--offline", action="store_true", help="Use only already-downloaded local games.")

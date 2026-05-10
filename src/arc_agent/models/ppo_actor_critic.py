@@ -41,6 +41,8 @@ class PPOActorCritic(nn.Module if nn is not None else object):
         self.value = nn.Linear(hidden_dim, 1)
 
     def forward(self, graph_embedding: Any, belief_features: Any, action_mask: Any | None = None) -> ActorCriticOutput:
+        if torch is None:
+            raise RuntimeError("PyTorch is required for PPOActorCritic.")
         if graph_embedding.ndim == 1:
             graph_embedding = graph_embedding.unsqueeze(0)
         if belief_features.ndim == 1:
@@ -53,12 +55,16 @@ class PPOActorCritic(nn.Module if nn is not None else object):
         return ActorCriticOutput(logits=logits, value=value)
 
     def act(self, graph_embedding: Any, belief_features: Any, action_mask: Any | None = None) -> tuple[Any, Any, Any]:
+        if torch is None:
+            raise RuntimeError("PyTorch is required for PPOActorCritic.")
         output = self.forward(graph_embedding, belief_features, action_mask)
         dist = torch.distributions.Categorical(logits=output.logits)
         action = dist.sample()
         return action, dist.log_prob(action), output.value
 
     def evaluate_actions(self, graph_embedding: Any, belief_features: Any, actions: Any, action_mask: Any | None = None) -> tuple[Any, Any, Any]:
+        if torch is None:
+            raise RuntimeError("PyTorch is required for PPOActorCritic.")
         output = self.forward(graph_embedding, belief_features, action_mask)
         dist = torch.distributions.Categorical(logits=output.logits)
         return dist.log_prob(actions), dist.entropy(), output.value

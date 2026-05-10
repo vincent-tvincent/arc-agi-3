@@ -22,7 +22,7 @@ from arcengine import FrameDataRaw, GameAction, GameState
 from arc3_pipeline.frame_utils import frame_to_grid
 
 DEFAULT_ENVIRONMENTS_DIR = "environment_files"
-DEFAULT_RECORDINGS_DIR = "recordings"
+DEFAULT_RECORDINGS_DIR = "/run/media/blue-lobster/disk3/CS274p_output/recordings"
 DEFAULT_KEYMAP = Path(__file__).with_name("manual_play_keymap.yaml")
 RenderMode = Literal["terminal", "terminal-fast", "human", None]
 

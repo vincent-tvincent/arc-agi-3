@@ -48,19 +48,16 @@ arc-agi-3/
       vector_builder.py
       cluster_games.py
   environment_files/
-  recordings/
   analysis/
   analysis_csv/
-  clusters/
-  runs/
-  training_runs/
-  training_examples/
 ```
+
+Runtime outputs now live under `/run/media/blue-lobster/disk3/CS274p_output/`.
 
 Important files:
 
 - `src/experience_collection/quickstart.py` is the original quick smoke-test script for the official toolkit.
-- `src/experience_collection/collect_experience.py` runs a probing policy against one or more games and writes transition data to `runs/`.
+- `src/experience_collection/collect_experience.py` runs a probing policy against one or more games and writes transition data to `/run/media/blue-lobster/disk3/CS274p_output/training_runs/`.
 - `src/experience_collection/batch_collect_training.py` collects every available game with configurable steps/seeds from a YAML file.
 - `src/playground/manual_play.py` opens an interactive grid playground using key bindings and mouse clicks.
 - `src/analyze_experience.py` reads a collected run and prints ranked model-family hypotheses.
@@ -70,13 +67,13 @@ Important files:
 - `src/hdbscan_pipeline/vector_builder.py` converts training examples into fixed-length run vectors.
 - `src/hdbscan_pipeline/cluster_games.py` clusters those vectors for unsupervised game-type discovery.
 - `environment_files/` stores downloaded/local ARC-AGI-3 game files.
-- `recordings/` stores official toolkit recordings when `save_recording=True`.
-- `runs/` stores this pipeline's compact JSONL transition logs.
-- `training_runs/` is the recommended raw-transition output directory for larger training collections.
-- `training_examples/` stores step-level JSONL examples for model training.
+- `/run/media/blue-lobster/disk3/CS274p_output/recordings/` stores official toolkit recordings when `save_recording=True`.
+- `/run/media/blue-lobster/disk3/CS274p_output/runs/` stores training logs, metrics, checkpoints, and replays.
+- `/run/media/blue-lobster/disk3/CS274p_output/training_runs/` stores raw transition logs for larger training collections.
+- `/run/media/blue-lobster/disk3/CS274p_output/training_examples/` stores step-level JSONL examples for model training.
 - `analysis/` stores machine-readable per-run analyzer JSON.
 - `analysis_csv/` stores compact analyzer CSV files for human debugging.
-- `clusters/` stores unsupervised clustering outputs.
+- `/run/media/blue-lobster/disk3/CS274p_output/clusters/` stores unsupervised clustering outputs.
 
 ## API Key
 
@@ -91,7 +88,7 @@ Then edit `.env`:
 ```bash
 ARC_API_KEY=put-your-api-key-here
 ENVIRONMENTS_DIR=environment_files
-RECORDINGS_DIR=recordings
+RECORDINGS_DIR=/run/media/blue-lobster/disk3/CS274p_output/recordings
 ```
 
 The official `arc_agi` package automatically loads `.env` from the project root.
@@ -121,10 +118,10 @@ The collector now uses root-level environment and recording directories by defau
 
 ```text
 environment_files/
-recordings/
+/run/media/blue-lobster/disk3/CS274p_output/recordings/
 ```
 
-So from the project root, offline collection will load games from `environment_files/`, and toolkit recordings will be written to `recordings/`.
+So from the project root, offline collection will load games from `environment_files/`, and toolkit recordings will be written to `/run/media/blue-lobster/disk3/CS274p_output/recordings/`.
 
 If you need custom locations, use:
 
@@ -134,7 +131,7 @@ python src/experience_collection/collect_experience.py \
   --steps 80 \
   --offline \
   --environments-dir environment_files \
-  --recordings-dir recordings
+  --recordings-dir /run/media/blue-lobster/disk3/CS274p_output/recordings
 ```
 
 To collect transitions from the downloaded `ls20` game without contacting the API:
@@ -158,19 +155,19 @@ python src/experience_collection/collect_experience.py --game all --steps 80
 The collector writes compact transition logs like:
 
 ```text
-runs/ls20-9607627b_seed0.jsonl
+/run/media/blue-lobster/disk3/CS274p_output/training_runs/ls20-9607627b_seed0.jsonl
 ```
 
-To generate files under `training_runs/` instead, pass `--out-dir training_runs`:
+To generate files under the external training runs directory, pass `--out-dir /run/media/blue-lobster/disk3/CS274p_output/training_runs`:
 
 ```bash
-python src/experience_collection/collect_experience.py --game ls20 --steps 80 --offline --out-dir training_runs
+python src/experience_collection/collect_experience.py --game ls20 --steps 80 --offline --out-dir /run/media/blue-lobster/disk3/CS274p_output/training_runs
 ```
 
-To regenerate one run file per downloaded local game under `training_runs/`:
+To regenerate one run file per downloaded local game under the external training runs directory:
 
 ```bash
-python src/experience_collection/collect_experience.py --game all --steps 80 --offline --out-dir training_runs
+python src/experience_collection/collect_experience.py --game all --steps 80 --offline --out-dir /run/media/blue-lobster/disk3/CS274p_output/training_runs
 ```
 
 For real training data collection, prefer writing raw transition logs and training examples together:
@@ -180,15 +177,15 @@ python src/experience_collection/collect_experience.py \
   --game all \
   --steps 200 \
   --offline \
-  --out-dir training_runs \
-  --training-out-dir training_examples
+  --out-dir /run/media/blue-lobster/disk3/CS274p_output/training_runs \
+  --training-out-dir /run/media/blue-lobster/disk3/CS274p_output/training_examples
 ```
 
 This produces:
 
 ```text
-training_runs/<game_id>_seed0.jsonl
-training_examples/<game_id>_seed0.examples.jsonl
+/run/media/blue-lobster/disk3/CS274p_output/training_runs/<game_id>_seed0.jsonl
+/run/media/blue-lobster/disk3/CS274p_output/training_examples/<game_id>_seed0.examples.jsonl
 ```
 
 To run multiple seeds per game, either call the collector with `--seed` repeatedly or use the YAML-driven batch collector.
@@ -202,14 +199,14 @@ python src/experience_collection/batch_collect_training.py --config src/experien
 The batch collector reads settings such as `steps`, `seeds`, `offline`, `environments_dir`, `recordings_dir`, `out_dir`, and `training_out_dir` from YAML. The example config is commented, and its default output directories are:
 
 ```text
-training_runs/
-training_examples/
+/run/media/blue-lobster/disk3/CS274p_output/training_runs/
+/run/media/blue-lobster/disk3/CS274p_output/training_examples/
 ```
 
 By default, the collector also writes step-level training examples like:
 
 ```text
-training_examples/ls20-9607627b_seed0.examples.jsonl
+/run/media/blue-lobster/disk3/CS274p_output/training_examples/ls20-9607627b_seed0.examples.jsonl
 ```
 
 Each training row represents one observed transition:
@@ -290,7 +287,7 @@ python src/experience_collection/collect_experience.py --game ls20 --steps 80 --
 After collecting a run:
 
 ```bash
-python src/analyze_experience.py runs/ls20-9607627b_seed0.jsonl
+python src/analyze_experience.py /run/media/blue-lobster/disk3/CS274p_output/training_runs/ls20-9607627b_seed0.jsonl
 ```
 
 The analyzer still prints ranked hypotheses to the terminal. It also writes machine-readable JSON and human-debug CSV by default:
@@ -318,7 +315,7 @@ The analysis JSON contains game-level labels that can be joined to training exam
 You can override either export path:
 
 ```bash
-python src/analyze_experience.py runs/ls20-9607627b_seed0.jsonl \
+python src/analyze_experience.py /run/media/blue-lobster/disk3/CS274p_output/training_runs/ls20-9607627b_seed0.jsonl \
   --json-out custom.analysis.json \
   --csv-out custom.analysis.csv
 ```
@@ -365,19 +362,19 @@ After collecting training examples, run HDBSCAN clustering from the project root
 
 ```bash
 python src/hdbscan_pipeline/cluster_games.py \
-  --examples-dir training_examples \
-  --out-dir clusters \
+  --examples-dir /run/media/blue-lobster/disk3/CS274p_output/training_examples \
+  --out-dir /run/media/blue-lobster/disk3/CS274p_output/clusters \
   --method hdbscan
 ```
 
-This pipeline does not consume the old hardcoded analyzer results. It builds fixed-length vectors directly from `training_examples/*.examples.jsonl`, then clusters game runs from those transition statistics.
+This pipeline does not consume the old hardcoded analyzer results. It builds fixed-length vectors directly from `/run/media/blue-lobster/disk3/CS274p_output/training_examples/*.examples.jsonl`, then clusters game runs from those transition statistics.
 
 The default HDBSCAN outputs are:
 
 ```text
-clusters/game_clusters.csv
-clusters/game_clusters.json
-clusters/feature_columns.json
+/run/media/blue-lobster/disk3/CS274p_output/clusters/game_clusters.csv
+/run/media/blue-lobster/disk3/CS274p_output/clusters/game_clusters.json
+/run/media/blue-lobster/disk3/CS274p_output/clusters/feature_columns.json
 ```
 
 Use the YAML config when you want repeatable clustering settings:
@@ -500,36 +497,44 @@ Collect synthetic/mock rollout data:
 python scripts/collect_rollouts.py --config configs/train_gnn.yaml --env mock --episodes 5000
 ```
 
+Collect official ARC rollout data:
+
+```bash
+python src/experience_collection/collect_experience.py --game all --steps 200 --offline --out-dir /run/media/blue-lobster/disk3/CS274p_output/training_runs --training-out-dir /run/media/blue-lobster/disk3/CS274p_output/training_examples
+```
+
 Train the GNN:
 
 ```bash
 python scripts/train_gnn.py --config configs/train_gnn.yaml
+python scripts/train_gnn.py --config configs/train_gnn_arc.yaml
 ```
 
 Train PPO with a pretrained GNN:
 
 ```bash
-python scripts/train_ppo.py --config configs/train_ppo.yaml --pretrained-gnn runs/<run>/checkpoints/gnn_best_val_f1.pt
+python scripts/train_ppo.py --config configs/train_ppo.yaml --pretrained-gnn /run/media/blue-lobster/disk3/CS274p_output/runs/<run>/checkpoints/gnn_best_val_f1.pt
+python scripts/train_ppo.py --config configs/train_ppo_arc.yaml --game ls20 --pretrained-gnn /run/media/blue-lobster/disk3/CS274p_output/runs/train_gnn_arc/checkpoints/gnn_best_val_f1.pt
 ```
 
 Resume PPO:
 
 ```bash
-python scripts/train_ppo.py --config configs/train_ppo.yaml --resume runs/<run>/checkpoints/ppo_latest.pt
+python scripts/train_ppo.py --config configs/train_ppo.yaml --resume /run/media/blue-lobster/disk3/CS274p_output/runs/<run>/checkpoints/ppo_latest.pt
 ```
 
 Evaluate:
 
 ```bash
 python scripts/evaluate_agent.py --config configs/debug_cpu.yaml --env mock --episodes 20
-python scripts/evaluate_agent.py --config configs/hardware_3080_10gb.yaml --env arcagi3 --checkpoint runs/<run>/checkpoints/ppo_best_success.pt
+python scripts/evaluate_agent.py --config configs/hardware_3080_10gb.yaml --env arcagi3 --checkpoint /run/media/blue-lobster/disk3/CS274p_output/runs/<run>/checkpoints/ppo_best_success.pt
 ```
 
 Replay and inspect:
 
 ```bash
-python scripts/replay_episode.py --replay runs/<run>/eval/replays/episode_0000.json.gz
-python scripts/inspect_graphs.py --replay runs/<run>/eval/replays/episode_0000.json.gz --step 10
+python scripts/replay_episode.py --replay /run/media/blue-lobster/disk3/CS274p_output/runs/<run>/eval/replays/episode_0000.json.gz
+python scripts/inspect_graphs.py --replay /run/media/blue-lobster/disk3/CS274p_output/runs/<run>/eval/replays/episode_0000.json.gz --step 10
 ```
 
-Logs, metrics, replays, and checkpoints are stored under `runs/<run_name>/`. The detailed docs are in `docs/architecture.md`, `docs/training.md`, `docs/data_format.md`, and `docs/evaluation.md`.
+Logs, metrics, replays, and checkpoints are stored under `/run/media/blue-lobster/disk3/CS274p_output/runs/<run_name>/`. The detailed docs are in `docs/architecture.md`, `docs/training.md`, `docs/data_format.md`, and `docs/evaluation.md`.

@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""Train PPO high-level strategy selection on the mock environment."""
+"""Train PPO high-level strategy selection on mock or official ARC environments."""
 
 from __future__ import annotations
 
 import argparse
 import sys
+import time
 from pathlib import Path
 
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from arc_agent.belief.belief_state import BeliefState
 from arc_agent.belief.belief_update import BeliefUpdater, compare_graphs
+from arc_agent.envs.arc_env_adapter import ArcAgi3EnvAdapter
 from arc_agent.envs.mock_grid_env import COLOR_LABELS, MockGridEnv
 from arc_agent.execution.action_executor import ActionExecutor
 from arc_agent.graph.graph_builder import GraphBuilder
@@ -38,6 +40,9 @@ STRATEGY_NAMES = [item.name for item in CandidateType][:8]
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="configs/train_ppo.yaml")
+    parser.add_argument("--env", default=None, choices=["mock", "arcagi3"], help="Override ppo_training.env.")
+    parser.add_argument("--game", default=None, help="Official ARC game id for --env arcagi3.")
+    parser.add_argument("--offline", action="store_true", default=None, help="Use local official ARC environment files.")
     parser.add_argument("--pretrained-gnn", default=None)
     parser.add_argument("--resume", default=None)
     args = parser.parse_args()
@@ -52,12 +57,17 @@ def main() -> None:
     logger = RunLogger(config.get("project", {}).get("run_name", "train_ppo"), root / "logs", True, config.get("logging", {}).get("use_tensorboard", False))
     manager = CheckpointManager(root / "checkpoints", int(config.get("storage", {}).get("checkpoint_keep_last", 3)))
 
-    env = MockGridEnv(config.get("mock_env", {}))
+    ppo_train_cfg = config.get("ppo_training", {})
+    env_kind = args.env or ppo_train_cfg.get("env", "mock")
+    game_id = args.game or ppo_train_cfg.get("game", "ls20")
+    offline = bool(ppo_train_cfg.get("offline", True) if args.offline is None else args.offline)
+    env = build_env(env_kind, config, game_id, offline)
+    color_labels = COLOR_LABELS if env_kind == "mock" else None
     obs = env.reset()
     segmenter = GridSegmenter(config.get("perception", {}))
     tracker = ObjectTracker(config.get("tracking", {}))
     builder = GraphBuilder(config.get("edge_builder", {}), config.get("features", {}))
-    initial_graph = build_graph(obs, 0, None, segmenter, tracker, builder, BeliefState(), config)
+    initial_graph = build_graph(obs, 0, None, segmenter, tracker, builder, BeliefState(), config, color_labels)
     model_cfg = config.get("model", {})
     ppo_cfg = model_cfg.get("ppo", {})
     gnn_cfg = model_cfg.get("gnn", {})
@@ -72,6 +82,7 @@ def main() -> None:
     if args.pretrained_gnn:
         checkpoint = manager.load(args.pretrained_gnn, map_location=device)
         gnn.load_state_dict(checkpoint["model_state_dict"])
+        logger.event(f"loaded pretrained GNN from {args.pretrained_gnn}")
     gnn.eval()
 
     actor = PPOActorCritic(
@@ -86,11 +97,19 @@ def main() -> None:
         checkpoint = manager.load(args.resume, map_location=device)
         actor.load_state_dict(checkpoint["actor_critic_state_dict"])
         optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        logger.event(f"resumed PPO checkpoint from {args.resume}")
 
     rollout_steps = int(config.get("ppo_training", {}).get("rollout_steps", 512))
     total_steps = int(config.get("ppo_training", {}).get("total_env_steps", 100000))
+    progress_interval = max(1, int(config.get("logging", {}).get("log_interval_steps", 1000)))
     gamma = float(config.get("ppo_training", {}).get("gamma", 0.99))
     gae_lambda = float(config.get("ppo_training", {}).get("gae_lambda", 0.95))
+    logger.event(
+        "starting PPO "
+        f"env={env_kind} game={game_id if env_kind == 'arcagi3' else 'mock'} "
+        f"device={device} total_env_steps={total_steps} rollout_steps={rollout_steps} "
+        f"progress_interval={progress_interval} action_space={env.action_space_n}"
+    )
     reward_shaper = RewardShaper(config.get("reward", {}))
     buffer = RolloutBuffer()
     global_step = 0
@@ -107,10 +126,16 @@ def main() -> None:
     generator = CandidateGenerator(config.get("candidate_generator", {}))
     executor = ActionExecutor()
     last_action: int | None = None
+    last_progress_time = time.perf_counter()
+    last_progress_step = 0
+    recent_rewards: list[float] = []
+    recent_lengths: list[int] = []
+    episode_length = 0
 
     while global_step < total_steps:
-        graph = build_graph(obs, global_step, last_action, segmenter, tracker, builder, belief, config)
-        seed_mock_beliefs(graph, belief)
+        graph = build_graph(obs, global_step, last_action, segmenter, tracker, builder, belief, config, color_labels)
+        if color_labels is not None:
+            seed_mock_beliefs(graph, belief, color_labels)
         with torch.no_grad():
             gnn_out = gnn(graph.to_torch(device))
             graph_embedding = gnn_out.graph_embedding
@@ -118,7 +143,7 @@ def main() -> None:
             high_action, log_prob, value = actor.act(graph_embedding, belief_features)
         strategy = STRATEGY_NAMES[int(high_action.item()) % len(STRATEGY_NAMES)]
         candidates = generator.generate(belief, graph, gnn_out)
-        planned = planner.plan_candidates(belief, graph, candidates, {strategy: 1.0}, frame_shape=obs.shape)
+        planned = planner.plan_candidates(belief, graph, candidates, {strategy: 1.0}, frame_shape=getattr(obs, "shape", None))
         low_action = executor.next_action(planner.choose(planned))
         next_obs, reward, done, info = env.step(low_action)
         shaped = reward_shaper.shape(reward, done, info_gain=max((c.expected_information_gain for c in planned), default=0.0), hazard=info.get("event") == "hazard")
@@ -129,11 +154,14 @@ def main() -> None:
         last_action = low_action
         obs = next_obs
         global_step += 1
+        episode_length += 1
         episode_return += reward
+        recent_rewards.append(float(reward))
 
         if done:
             successes.append(bool(reward > 0))
             returns.append(episode_return)
+            recent_lengths.append(episode_length)
             episodes += 1
             obs = env.reset()
             tracker.reset()
@@ -141,10 +169,35 @@ def main() -> None:
             belief = BeliefState()
             last_action = None
             episode_return = 0.0
+            episode_length = 0
+
+        if global_step == 1 or global_step % progress_interval == 0 or global_step == total_steps:
+            now = time.perf_counter()
+            step_delta = global_step - last_progress_step
+            elapsed = now - last_progress_time
+            steps_per_sec = step_delta / max(elapsed, 1e-9)
+            logger.log_metrics(
+                "train_ppo_progress",
+                global_step,
+                {
+                    "collected_steps": len(buffer.rewards),
+                    "rollout_steps": rollout_steps,
+                    "episodes": episodes,
+                    "recent_reward_mean": round(sum(recent_rewards[-progress_interval:]) / min(len(recent_rewards), progress_interval), 6)
+                    if recent_rewards
+                    else 0.0,
+                    "recent_return_mean": round(sum(returns[-20:]) / len(returns[-20:]), 6) if returns else 0.0,
+                    "recent_success_rate": round(sum(successes[-20:]) / len(successes[-20:]), 6) if successes else 0.0,
+                    "recent_episode_length": round(sum(recent_lengths[-20:]) / len(recent_lengths[-20:]), 2) if recent_lengths else 0.0,
+                    "steps_per_sec": round(steps_per_sec, 2),
+                },
+            )
+            last_progress_time = now
+            last_progress_step = global_step
 
         if len(buffer.rewards) >= rollout_steps:
             with torch.no_grad():
-                last_graph = build_graph(obs, global_step, last_action, segmenter, tracker, builder, belief, config)
+                last_graph = build_graph(obs, global_step, last_action, segmenter, tracker, builder, belief, config, color_labels)
                 last_embedding = gnn(last_graph.to_torch(device)).graph_embedding
                 last_belief = torch.as_tensor(belief.summary_vector(int(ppo_cfg.get("belief_feature_dim", 32))), dtype=torch.float32, device=device)
                 last_value = actor(last_embedding, last_belief).value.reshape(())
@@ -169,21 +222,34 @@ def main() -> None:
     logger.close()
 
 
-def build_graph(obs, frame_index, last_action, segmenter, tracker, builder, belief, config):
+def build_env(kind: str, config: dict, game: str, offline: bool):
+    if kind == "mock":
+        return MockGridEnv(config.get("mock_env", {}))
+    return ArcAgi3EnvAdapter(
+        game_id=game,
+        seed=int(config.get("project", {}).get("seed", 42)),
+        offline=offline,
+        environments_dir=config.get("arc_env", {}).get("environments_dir", "environment_files"),
+        recordings_dir=config.get("arc_env", {}).get("recordings_dir", "/run/media/blue-lobster/disk3/CS274p_output/recordings"),
+        render_mode=config.get("arc_env", {}).get("render_mode"),
+    )
+
+
+def build_graph(obs, frame_index, last_action, segmenter, tracker, builder, belief, config, color_labels=None):
     objects = segmenter.segment(obs, frame_index=frame_index)
     for obj in objects:
-        labels = COLOR_LABELS.get(int(obj.color_id or -1), set())
+        labels = color_labels.get(int(obj.color_id or -1), set()) if color_labels is not None else set()
         if "controllable" in labels:
             obj.attributes["label"] = "agent"
     tracked = tracker.update(objects)
-    return builder.build(tracked.objects, previous_action=last_action, belief=belief, frame_shape=obs.shape)
+    return builder.build(tracked.objects, previous_action=last_action, belief=belief, frame_shape=getattr(obs, "shape", None))
 
 
-def seed_mock_beliefs(graph: GraphState, belief: BeliefState) -> None:
+def seed_mock_beliefs(graph: GraphState, belief: BeliefState, color_labels: dict[int, set[str]]) -> None:
     for node in graph.nodes:
         object_id = node.track_id or node.id
         object_belief = belief.ensure_object(object_id)
-        labels = COLOR_LABELS.get(int(node.color_id or -1), set())
+        labels = color_labels.get(int(node.color_id or -1), set())
         if "controllable" in labels:
             node.attributes["label"] = "agent"
             object_belief["controllable"] = 0.95

@@ -14,10 +14,10 @@ offline: false
 game: all
 
 # Directory for raw transition logs produced by collect_experience.py.
-out_dir: training_runs
+out_dir: /run/media/blue-lobster/disk3/CS274p_output/training_runs
 
 # Directory for step-level training example JSONL files.
-training_out_dir: training_examples
+training_out_dir: /run/media/blue-lobster/disk3/CS274p_output/training_examples
 
 # Render mode while collecting. Use null for no rendering, or terminal/terminal-fast/human.
 render: null
@@ -29,4 +29,4 @@ append: false
 environments_dir: environment_files
 
 # Directory where the official toolkit writes recordings.
-recordings_dir: recordings
+recordings_dir: /run/media/blue-lobster/disk3/CS274p_output/recordings

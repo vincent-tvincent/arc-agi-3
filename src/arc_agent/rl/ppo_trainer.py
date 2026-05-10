@@ -16,7 +16,7 @@ from arc_agent.rl.rollout_buffer import RolloutBuffer
 
 class PPOTrainer:
     def __init__(self, actor_critic: Any, optimizer: Any, config: dict[str, Any]) -> None:
-        if torch is None:
+        if torch is None or nn is None:
             raise RuntimeError("PyTorch is required for PPOTrainer.")
         self.actor_critic = actor_critic
         self.optimizer = optimizer
@@ -29,6 +29,8 @@ class PPOTrainer:
         self.target_kl = config.get("target_kl")
 
     def update(self, buffer: RolloutBuffer) -> dict[str, float]:
+        if torch is None or nn is None:
+            raise RuntimeError("PyTorch is required for PPOTrainer.")
         data = buffer.tensors()
         batch_size = data["actions"].shape[0]
         stats: dict[str, list[float]] = {

@@ -2,7 +2,7 @@ project:
   name: arc_agi3_gnn_ppo_agent
   seed: 42
   output_dir: /run/media/blue-lobster/disk3/CS274p_output/runs
-  run_name: train_ppo_mock
+  run_name: train_ppo_arc
 
 hardware:
   device: auto
@@ -91,16 +91,18 @@ planner:
   risk_weight: 3.0
   step_cost_weight: 0.05
 
-mock_env:
-  width: 9
-  height: 9
-  max_steps: 80
-  seed: 42
+arc_env:
+  environments_dir: environment_files
+  recordings_dir: /run/media/blue-lobster/disk3/CS274p_output/recordings
+  render_mode: null
 
 ppo_training:
+  env: arcagi3
+  game: ls20
+  offline: true
   total_env_steps: 1000000
   rollout_steps: 512
-  num_envs: 8
+  num_envs: 1
   minibatch_size: 512
   update_epochs: 4
   gamma: 0.99

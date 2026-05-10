@@ -1,7 +1,7 @@
 project:
   name: arc_agi3_gnn_ppo_agent
   seed: 7
-  output_dir: runs
+  output_dir: /run/media/blue-lobster/disk3/CS274p_output/runs
   run_name: debug_cpu
 
 hardware:
@@ -11,8 +11,8 @@ hardware:
   pin_memory: false
   compile_model: false
   max_vram_gb: 0
-  ssd_cache_dir: cache/debug
-  hdd_archive_dir: archive/debug
+  ssd_cache_dir: /run/media/blue-lobster/disk3/CS274p_output/cache/debug
+  hdd_archive_dir: /run/media/blue-lobster/disk3/CS274p_output/archive/debug
 
 storage:
   save_replays: true
@@ -100,7 +100,7 @@ mock_env:
   seed: 7
 
 gnn_training:
-  data_dir: runs/debug_gnn_data
+  data_dir: /run/media/blue-lobster/disk3/CS274p_output/runs/debug_gnn_data
   epochs: 1
   batch_size: 1
   learning_rate: 0.001

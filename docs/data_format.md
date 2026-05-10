@@ -53,4 +53,4 @@ Checkpoints include model and optimizer state, full config, global step, epoch, 
 
 ## Metrics CSV
 
-`RunLogger` writes `runs/<run_name>/logs/metrics.csv` with timestamp, phase, step, scalar metrics, and GPU memory.
+`RunLogger` writes `/run/media/blue-lobster/disk3/CS274p_output/runs/<run_name>/logs/metrics.csv` with timestamp, phase, step, scalar metrics, and GPU memory.

@@ -69,13 +69,15 @@ class RolloutBuffer:
     def tensors(self) -> dict[str, Any]:
         if torch is None:
             raise RuntimeError("PyTorch is required for RolloutBuffer.")
-        if self.advantages is None or self.returns is None:
+        advantages = self.advantages
+        returns = self.returns
+        if advantages is None or returns is None:
             raise RuntimeError("Call compute_returns_and_advantages before tensors().")
         return {
             "graph_embeddings": torch.stack(self.graph_embeddings),
             "belief_features": torch.stack(self.belief_features),
-            "actions": torch.as_tensor(self.actions, dtype=torch.long, device=self.advantages.device),
+            "actions": torch.as_tensor(self.actions, dtype=torch.long, device=advantages.device),
             "old_log_probs": torch.stack([item.reshape(()) for item in self.log_probs]),
-            "returns": self.returns,
-            "advantages": (self.advantages - self.advantages.mean()) / (self.advantages.std().clamp_min(1e-8)),
+            "returns": returns,
+            "advantages": (advantages - advantages.mean()) / (advantages.std().clamp_min(1e-8)),
         }

@@ -2,10 +2,10 @@ project:
   name: arc_agi3_gnn_ppo_agent
   seed: 42
   output_dir: /run/media/blue-lobster/disk3/CS274p_output/runs
-  run_name: train_ppo_mock
+  run_name: train_gnn_arc
 
 hardware:
-  device: auto
+  device: cuda
   mixed_precision: true
   num_workers: 4
   pin_memory: true
@@ -68,64 +68,21 @@ model:
     heads: 4
     dropout: 0.1
     global_pool: attention
-  ppo:
-    graph_embedding_dim: 128
-    belief_feature_dim: 32
-    candidate_feature_dim: 12
-    hidden_dim: 256
-    recurrent: false
-    high_level_actions: 8
 
-planner:
-  low_level_search: astar
-  max_search_nodes: 20000
-  replan_every_step: true
-  execute_plan_steps_before_replan: 1
-  risk_threshold: 0.65
-  unknown_test_bonus: 2.0
-  goal_bonus: 10.0
-  step_cost: 0.02
-  planner_goal_weight: 4.0
-  info_gain_weight: 1.5
-  ppo_weight: 1.0
-  risk_weight: 3.0
-  step_cost_weight: 0.05
-
-mock_env:
-  width: 9
-  height: 9
-  max_steps: 80
-  seed: 42
-
-ppo_training:
-  total_env_steps: 1000000
-  rollout_steps: 512
-  num_envs: 8
-  minibatch_size: 512
-  update_epochs: 4
-  gamma: 0.99
-  gae_lambda: 0.95
-  clip_coef: 0.2
-  ent_coef: 0.02
-  vf_coef: 0.5
-  max_grad_norm: 0.5
-  learning_rate: 0.00025
-  target_kl: 0.03
-
-reward:
-  success_bonus: 5.0
-  information_gain_bonus: 0.2
-  causal_relation_bonus: 0.2
-  confidence_bonus: 0.05
-  subgoal_bonus: 0.1
-  step_penalty: 0.01
-  repeated_state_penalty: 0.05
-  hazard_penalty: 2.0
+gnn_training:
+  data_dir: /run/media/blue-lobster/disk3/CS274p_output/training_examples
+  data_format: arc
+  lazy_index: false
+  index_workers: 20
+  epochs: 20
+  batch_size: 16
+  learning_rate: 0.001
+  validation_fraction: 0.2
 
 logging:
-  log_interval_steps: 1000
-  eval_interval_steps: 25000
-  checkpoint_interval_steps: 50000
+  log_interval_steps: 100
+  eval_interval_steps: 1000
+  checkpoint_interval_steps: 1000
   use_tensorboard: true
   use_csv_log: true
   console_level: info

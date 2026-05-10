@@ -62,6 +62,6 @@ def get_config_value(config: Mapping[str, Any], dotted_key: str, default: Any = 
 
 
 def run_dir(config: Mapping[str, Any]) -> Path:
-    output_dir = Path(str(get_config_value(config, "project.output_dir", "runs")))
+    output_dir = Path(str(get_config_value(config, "project.output_dir", "/run/media/blue-lobster/disk3/CS274p_output/runs")))
     run_name = str(get_config_value(config, "project.run_name", "run"))
     return output_dir / run_name
