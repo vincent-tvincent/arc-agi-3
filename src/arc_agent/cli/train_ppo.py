@@ -21,6 +21,7 @@ from arc_agent.graph.graph_features import AFFORDANCE_NAMES
 from arc_agent.models.gnn_affordance import GNNAffordanceModel
 from arc_agent.models.ppo_actor_critic import PPOActorCritic
 from arc_agent.perception.object_tracker import ObjectTracker
+from arc_agent.perception.grid_extractor import frame_to_grid
 from arc_agent.perception.segmenter import GridSegmenter
 from arc_agent.planning.candidates import CandidateType, CandidateGenerator
 from arc_agent.planning.planner import Planner
@@ -242,7 +243,7 @@ def build_graph(obs, frame_index, last_action, segmenter, tracker, builder, beli
         if "controllable" in labels:
             obj.attributes["label"] = "agent"
     tracked = tracker.update(objects)
-    return builder.build(tracked.objects, previous_action=last_action, belief=belief, frame_shape=getattr(obs, "shape", None))
+    return builder.build(tracked.objects, previous_action=last_action, belief=belief, frame_shape=frame_to_grid(obs).shape)
 
 
 def seed_mock_beliefs(graph: GraphState, belief: BeliefState, color_labels: dict[int, set[str]]) -> None:

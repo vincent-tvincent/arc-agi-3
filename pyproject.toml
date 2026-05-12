@@ -33,6 +33,8 @@ arc-agent-train-ppo = "arc_agent.cli.train_ppo:main"
 arc-agent-evaluate = "arc_agent.cli.evaluate_agent:main"
 arc-agent-inspect-graphs = "arc_agent.cli.inspect_graphs:main"
 arc-agent-replay-episode = "arc_agent.cli.replay_episode:main"
+arc-agent-debug-gnn-frame = "arc_agent.cli.debug_gnn_frame:main"
+arc-agent-precompute-gnn-cache = "arc_agent.cli.precompute_gnn_cache:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

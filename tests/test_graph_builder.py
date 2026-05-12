@@ -36,3 +36,12 @@ def test_same_color_edge_exists_when_enabled() -> None:
         frame_shape=(6, 6),
     )
     assert any(float(row[4]) == 1.0 for row in graph.edge_attr)
+
+
+def test_rgb_like_frame_shape_uses_spatial_dimensions() -> None:
+    graph = GraphBuilder({"spatial_radius": 3}, {"max_colors": 8, "action_space_n": 4}).build(
+        [component(0, 1, [(1, 1)])],
+        frame_shape=(10, 12, 3),
+    )
+    assert graph.graph_features[1] == 12
+    assert graph.graph_features[2] == 10

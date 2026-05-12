@@ -82,7 +82,10 @@ class CheckpointManager:
         if torch_available():
             import torch
 
-            return torch.load(checkpoint_path, map_location=map_location)
+            try:
+                return torch.load(checkpoint_path, map_location=map_location, weights_only=False)
+            except TypeError:
+                return torch.load(checkpoint_path, map_location=map_location)
         with checkpoint_path.open("rb") as file:
             return pickle.load(file)
 

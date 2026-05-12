@@ -510,6 +510,100 @@ python scripts/train_gnn.py --config configs/train_gnn.yaml
 python scripts/train_gnn.py --config configs/train_gnn_arc.yaml
 ```
 
+Warm-start GNN weights on a different dataset:
+
+```bash
+python scripts/train_gnn.py \
+  --config configs/train_gnn_arc.yaml \
+  --data-dir /run/media/blue-lobster/disk3/CS274p_output/training_examples \
+  --data-format arc \
+  --pretrained-gnn /run/media/blue-lobster/disk3/CS274p_output/runs/train_gnn_arc/checkpoints/gnn_best_val_f1.pt
+```
+
+Use `--pretrained-gnn` when changing datasets because it loads only model weights
+and resets optimizer state. Use `--resume` only to continue the same run.
+
+Precompute graph/soft-label cache for faster repeated GNN training:
+
+```bash
+python scripts/precompute_gnn_cache.py \
+  --config configs/train_gnn_arc.yaml \
+  --data-dir /run/media/blue-lobster/disk3/CS274p_output/training_examples \
+  --data-format arc \
+  --out-dir /run/media/blue-lobster/disk3/CS274p_output/gnn_cache_soft_v1 \
+  --workers 8 \
+  --shard-size 2048
+```
+
+Train from that cache:
+
+```bash
+python scripts/train_gnn.py \
+  --config configs/train_gnn_arc.yaml \
+  --data-dir /run/media/blue-lobster/disk3/CS274p_output/gnn_cache_soft_v1 \
+  --data-format cache \
+  --pretrained-gnn /run/media/blue-lobster/disk3/CS274p_output/runs/train_gnn_arc/checkpoints/gnn_latest.pt
+```
+
+Debug one GNN checkpoint visually:
+
+```bash
+python scripts/debug_gnn_frame.py \
+  --config configs/train_gnn_arc.yaml \
+  --checkpoint /run/media/blue-lobster/disk3/CS274p_output/runs/train_gnn_arc/checkpoints/gnn_best_val_f1.pt \
+  --game ls20 \
+  --seed 0 \
+  --row 0
+```
+
+`--row` means the JSONL example index, not a pixel row. The script still processes the entire selected frame, builds the full object graph, and classifies every segment in that frame. You can also select by transition step:
+
+```bash
+python scripts/debug_gnn_frame.py \
+  --config configs/train_gnn_arc.yaml \
+  --checkpoint /run/media/blue-lobster/disk3/CS274p_output/runs/train_gnn_arc/checkpoints/gnn_best_val_f1.pt \
+  --game ls20 \
+  --seed 0 \
+  --step 25
+```
+
+The debug export is written under:
+
+```text
+/run/media/blue-lobster/disk3/CS274p_output/runs/train_gnn_arc/debug_gnn_frame/
+```
+
+Each export folder contains:
+
+```text
+frame.png
+frame_overlay.png
+predictions.csv
+blocking/
+movable/
+collectible/
+hazardous/
+goal_related/
+trigger/
+controllable/
+ui_or_status/
+unknown_interactable/
+```
+
+`frame.png` is the selected frame rendered with the official ARC-AGI color palette. `frame_overlay.png` converts that frame to grayscale, then highlights predicted object segments. If one segment is predicted as multiple categories, the overlay uses the strongest predicted category color; check `predictions.csv` and the per-category crop folders for full multi-label results.
+
+Overlay color legend:
+
+<font color="#ff595e">blocking</font> - red<br>
+<font color="#1982c4">movable</font> - blue<br>
+<font color="#8ac926">collectible</font> - green<br>
+<font color="#ffca3a">hazardous</font> - yellow<br>
+<font color="#6a4c93">goal_related</font> - purple<br>
+<font color="#ff924c">trigger</font> - orange<br>
+<font color="#4ade80">controllable</font> - bright green<br>
+<font color="#f472b6">ui_or_status</font> - pink<br>
+<font color="#2dd4bf">unknown_interactable</font> - cyan/teal
+
 Train PPO with a pretrained GNN:
 
 ```bash

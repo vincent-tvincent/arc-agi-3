@@ -7,10 +7,10 @@ project:
 hardware:
   device: auto
   mixed_precision: true
-  num_workers: 4
+  num_workers: 8
   pin_memory: true
   compile_model: false
-  max_vram_gb: 9.2
+  max_vram_gb: 9.5
 
 storage:
   save_replays: true
@@ -64,7 +64,7 @@ model:
     node_in_dim: auto
     edge_in_dim: auto
     hidden_dim: 128
-    layers: 3
+    layers: 6
     heads: 4
     dropout: 0.1
     global_pool: attention
@@ -78,8 +78,8 @@ mock_env:
 gnn_training:
   data_dir: /run/media/blue-lobster/disk3/CS274p_output/runs/gnn_mock_data
   epochs: 20
-  batch_size: 16
-  learning_rate: 0.001
+  batch_size: 24 
+  learning_rate: 0.0005
   validation_fraction: 0.2
 
 logging:

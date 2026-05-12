@@ -51,6 +51,30 @@ gnn_training:
 
 Set `lazy_index: false` to eagerly load all rows into memory. Increase `index_workers` if indexing many JSONL files is disk-bound and your storage can handle more parallel reads.
 
+For repeated GNN experiments on the same data and labeler config, precompute a graph/label cache first:
+
+```bash
+python scripts/precompute_gnn_cache.py \
+  --config configs/train_gnn_arc.yaml \
+  --data-dir /run/media/blue-lobster/disk3/CS274p_output/training_examples \
+  --data-format arc \
+  --out-dir /run/media/blue-lobster/disk3/CS274p_output/gnn_cache_soft_v1 \
+  --workers 8 \
+  --shard-size 2048
+```
+
+Then train from the cache:
+
+```bash
+python scripts/train_gnn.py \
+  --config configs/train_gnn_arc.yaml \
+  --data-dir /run/media/blue-lobster/disk3/CS274p_output/gnn_cache_soft_v1 \
+  --data-format cache \
+  --pretrained-gnn /run/media/blue-lobster/disk3/CS274p_output/runs/train_gnn_arc/checkpoints/gnn_latest.pt
+```
+
+The cache stores per-row graphs and soft labels, not the train/validation split. Rebuild it when perception, graph feature, edge builder, or pseudo-labeling settings change; the manifest stores a `labeler_config_hash` and training warns if it differs from the current config.
+
 Checkpoints are written to:
 
 ```text

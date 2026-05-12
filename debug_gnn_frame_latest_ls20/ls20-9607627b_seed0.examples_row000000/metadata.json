@@ -1,0 +1,23 @@
+{
+  "source": "ls20-9607627b_seed0.examples",
+  "index": 0,
+  "checkpoint": "/run/media/blue-lobster/disk3/CS274p_output/runs/train_gnn_arc/checkpoints/gnn_latest.pt",
+  "frame_shape": [
+    64,
+    64
+  ],
+  "num_nodes": 18,
+  "threshold": 0.5,
+  "scale": 16,
+  "categories": [
+    "blocking",
+    "movable",
+    "collectible",
+    "hazardous",
+    "goal_related",
+    "trigger",
+    "controllable",
+    "ui_or_status",
+    "unknown_interactable"
+  ]
+}

@@ -185,9 +185,11 @@ class GraphBuilder:
             context[int(previous_action)] = 1.0
         return context
 
-    def _frame_shape(self, objects: list[ObjectComponent], frame_shape: tuple[int, int] | None) -> tuple[int, int]:
+    def _frame_shape(self, objects: list[ObjectComponent], frame_shape: tuple[int, ...] | None) -> tuple[int, int]:
         if frame_shape is not None:
-            return frame_shape
+            if len(frame_shape) < 2:
+                return (1, 1)
+            return int(frame_shape[0]), int(frame_shape[1])
         if not objects:
             return (1, 1)
         width = max(obj.bbox[2] for obj in objects) + 1

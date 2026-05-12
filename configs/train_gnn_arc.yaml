@@ -72,16 +72,243 @@ model:
 gnn_training:
   data_dir: /run/media/blue-lobster/disk3/CS274p_output/training_examples
   data_format: arc
+  # Eager loading is faster during training but uses more RAM. Set true if the
+  # dataset is too large to hold in memory.
   lazy_index: false
+  # Shuffle row indices before train/validation splitting. This avoids using the
+  # last game file(s) as the entire validation set when data is sorted.
+  split_shuffle: true
   index_workers: 8
   epochs: 20
-  batch_size: 24
+  batch_size: 8
   learning_rate: 0.0003
   validation_fraction: 0.1
   shuffle: true
+  # Use PyTorch DataLoader workers to prepare cached/raw graph batches in
+  # parallel. This is the main knob for avoiding one-core CPU bottlenecks.
+  use_dataloader: true
+
+  # Worker processes for training batch preparation. If omitted, the trainer
+  # falls back to hardware.num_workers. Increase while CPU/disk can keep up.
+  dataloader_workers: 8
+
+  # Worker processes for validation batch preparation. Keeping this lower avoids
+  # spawning too many processes during eval.
+  eval_dataloader_workers: 8
+
+  # Number of batches each worker pre8pares ahead of the GPU. Higher values can
+  # improve throughput but use more RAM.
+  prefetch_factor: 1
+
+  # Keep workers alive across epochs, avoiding process startup each epoch.
+  persistent_workers: true
+
+  # Multiprocessing context for DataLoader workers. Use forkserver for CUDA
+  # training so workers are not forked from a process that already initialized
+  # CUDA/model state.
+  dataloader_multiprocessing_context: forkserver
+
   positive_weight: auto
   positive_weight_sample_rows: 2000
   positive_weight_max: 20.0
+  # Progress interval for positive-weight estimation. This happens before the
+  # first training batch, so logging here prevents the run from looking stuck.
+  positive_weight_log_interval_rows: 250
+
+  cache:
+    # Number of precomputed cache shards to keep in memory. Higher values reduce
+    # disk reloads when training batches are shuffled across shards, at the cost
+    # of more RAM.
+    max_open_shards: 1
+
+  pseudo_labeling:
+    # Maximum Manhattan distance from a changed cell for an object to count as
+    # directly affected by the action. Higher values label more nearby objects.
+    direct_change_adjacency_radius: 1
+
+    # Treat objects covering this fraction of the frame, or objects with the
+    # background color, as floor/background. These receive no affordance labels.
+    floor_area_ratio: 0.18
+
+    # Status/UI detection for progress bars and border indicators. Matching
+    # objects get ui_or_status=1 and are excluded from interaction labels.
+    # Edge margin is measured in cells from the frame border.
+    status_edge_margin: 1
+
+    # Minimum absolute length, in cells, before a thin object can be considered
+    # a long status bar. This prevents tiny sprites from being treated as UI.
+    status_min_long_abs: 8
+
+    # Maximum absolute thickness, in cells, for long thin UI elements.
+    status_max_thin_abs: 4
+
+    # Maximum relative thickness. For horizontal bars this is a fraction of
+    # frame height; for vertical bars this is a fraction of frame width.
+    status_max_thin_ratio: 0.07
+
+    # Minimum relative length for horizontal status bars.
+    status_long_horizontal_ratio: 0.35
+
+    # Minimum relative length for vertical status bars.
+    status_long_vertical_ratio: 0.35
+
+    # Y-position threshold for bottom progress/status bars. 0.90 means the
+    # object's top must be in the bottom 10% of the frame.
+    status_bottom_band_ratio: 0.90
+
+    # Minimum relative width for bottom progress/status bars.
+    status_bottom_min_width_ratio: 0.25
+
+    # HUD suppression for bottom controls, legends, and indicators. HUD-like
+    # objects are not labeled movable or collectible, even if they change.
+    # 0.78 means the object's top is in the bottom 22% of the frame.
+    hud_bottom_band_ratio: 0.78
+
+    # Treat HUD-like objects as ui_or_status and stop assigning interaction
+    # labels. This catches LS20 life counters and lower-left indicators.
+    hud_like_is_status: true
+
+    # If an object is inside a lower-left HUD preview/container, also treat it
+    # as ui_or_status. This prevents target-shape indicator pieces from being
+    # labeled movable when the preview changes.
+    hud_container_inheritance: true
+    hud_container_padding: 1
+
+    # Size and broad edge-position test for target-shape preview panels.
+    # The edge filter accepts panels near any frame edge, not only lower-left.
+    hud_preview_use_position_filter: true
+    hud_preview_edge_margin_ratio: 0.20
+    hud_preview_min_size: 6
+    hud_preview_max_area_ratio: 0.08
+
+    # Width fraction defining the lower-left HUD/indicator region.
+    hud_bottom_left_width_ratio: 0.22
+
+    # Y-position threshold for the lower-left HUD/indicator region.
+    hud_bottom_left_y_ratio: 0.70
+
+    # Similarity test used before labeling an object movable. The after-frame
+    # component must have roughly compatible area and shape with the before
+    # component; this rejects texture/shadow flicker.
+    similar_min_area_ratio: 0.5
+    similar_max_area_ratio: 2.0
+
+    # Allowed absolute width/height difference in cells, with the object's own
+    # size also allowed. Higher values tolerate more deformation.
+    similar_max_shape_delta_abs: 2
+
+    # Maximum overlap ratio allowed for a before/after component to count as
+    # motion. This permits one-cell shifts of larger sprites while rejecting
+    # almost-identical texture/status flicker inside the same region.
+    similar_max_motion_overlap_ratio: 0.85
+
+    # Maximum centroid movement, in cells, for matching a moved component.
+    movable_max_centroid_distance: 8.0
+
+    # Area used by soft labels to reduce collectible confidence for large
+    # disappearing objects. Smaller compact objects keep higher confidence.
+    collectible_max_area: 64
+
+    # Motion within this distance is considered a direct action-sized step and
+    # can become controllable/movable. Larger remote shifts are treated as
+    # goal-related target motion instead of player control.
+    controllable_max_step_distance: 2.0
+
+    # Minimum soft motion modifier for objects within controllable step range.
+    # Higher values make all valid short-step motions receive more confidence.
+    motion_score_floor: 0.5
+
+    # Small coherent motion is treated as weak controllable evidence. The area
+    # threshold is the max of this absolute value and the frame-relative value.
+    controllable_max_area: 64
+    controllable_max_area_ratio: 0.02
+
+    # Minimum soft size modifier for controllable labels. Higher values make
+    # larger but still eligible moving objects less harshly penalized.
+    controllable_smallness_floor: 0.25
+
+    # Local change plus remote changed cells is treated as weak trigger evidence.
+    # This is intentionally weak/noisy, but gives the model some positive
+    # trigger examples when an object affects distant cells.
+    trigger_min_changed_cells: 2
+
+    # Trigger sources should be compact stationary controls/buttons. This keeps
+    # moving target/gate components from being labeled as the trigger itself.
+    trigger_source_max_area: 32
+    trigger_source_max_width: 8
+    trigger_source_max_height: 8
+
+    # Area ratio used by soft blocking confidence. Objects at or above this
+    # frame-area fraction get full largeness evidence.
+    blocking_large_area_ratio: 0.04
+
+    # Minimum soft largeness modifier for blocking labels. Higher values make
+    # small blocking candidates less harshly penalized.
+    blocking_largeness_floor: 0.25
+
+    # Assign unknown_interactable only if no stronger label matched. This avoids
+    # teaching the model that every player, trigger, or target is also unknown.
+    unknown_interactable_as_fallback: true
+
+    soft_labels:
+      # Enable confidence-valued pseudo labels. Disable to return hard 0/1
+      # labels while keeping the same rule gates.
+      enabled: true
+
+      # Threshold used only for validation F1. BCE training still consumes the
+      # raw soft label values.
+      metric_label_threshold: 0.5
+
+      # Confidence for long thin progress/status bars.
+      status_ui: 0.95
+
+      # Confidence for HUD objects such as counters, controls, and indicators.
+      hud_ui: 0.90
+
+      # Confidence for pieces nested inside an edge-positioned HUD preview
+      # panel, such as target-shape indicator components.
+      hud_preview_ui: 0.90
+
+      # Residual visual-motion confidence for HUD preview pieces. This lets the
+      # model see that previews may change shape without treating them as real
+      # movable gameplay objects.
+      hud_preview_movable_residual: 0.10
+
+      # Residual unknown confidence for HUD preview pieces.
+      hud_preview_unknown_residual: 0.05
+
+      # Confidence for direct win/level-progress objects.
+      win_goal_related: 0.95
+
+      # Confidence for objects directly involved in game-over transitions.
+      game_over_hazardous: 0.95
+
+      # Base confidence for disappearing compact objects. The final value is
+      # multiplied by soft compactness/smallness modifiers.
+      collectible: 0.85
+
+      # Base confidence for coherent short-step motion.
+      short_motion_movable: 0.90
+
+      # Base confidence for small coherent short-step motion. The final value is
+      # multiplied by motion and smallness modifiers.
+      short_motion_controllable: 0.85
+
+      # Confidence for remotely shifted target/gate objects.
+      remote_target_goal_related: 0.80
+
+      # Residual motion confidence for remote target/gate movement.
+      remote_target_movable_residual: 0.25
+
+      # Base confidence for compact stationary remote-effect sources/buttons.
+      # The final value is multiplied by compactness/smallness modifiers.
+      trigger_source_trigger: 0.85
+
+      # Base confidence for blocking evidence.
+      blocking: 0.80
+
+      # Confidence when no stronger affordance rule matched.
+      unknown_fallback: 0.40
 
 logging:
   log_interval_steps: 100
